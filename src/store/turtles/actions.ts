@@ -4,7 +4,7 @@ import { StateInterface } from '../index'
 import { ITurtle, ITurtleState } from './state'
 
 const actions: ActionTree<ITurtleState, StateInterface> = {
-  async fetchTurtleInfoList ({ commit }) {
+  async fetchTurtleList ({ commit }) {
     const { data } = await api.get<ITurtle[]>('turtles')
     commit('addTurtles', data)
   }
