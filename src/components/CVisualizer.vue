@@ -1,5 +1,5 @@
 <template>
-  <div :style="containerStyle" class="grid">
+  <div :style="containerStyle" class="grid text-caption disable-select">
     <div
       v-for="(xRow, index) of grid"
       :key="index"
@@ -11,8 +11,11 @@
         :key="[x, z].join('/')"
         :style="{ height: `${cellSize}px`, width: `${cellSize}px` }"
         class="inline-block grid-cell"
+        :class="{ 'turtle': posMap[x] && posMap[x][z] }"
       >
-        {{ [x, z].join(', ') }}
+        <div class="fit flex flex-center">
+          {{ [x, z].join(', ') }}
+        </div>
       </div>
     </div>
   </div>
@@ -141,6 +144,11 @@ export default defineComponent({
       border-width: 0px;
       border-left-width: 1px;
       border-top-width: 1px;
+    }
+
+    .grid-cell.turtle {
+      background-color: $primary;
+      color: white;
     }
 
     .grid-cell:last-child {
