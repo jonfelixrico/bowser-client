@@ -1,10 +1,12 @@
+import { api } from 'src/boot/axios'
 import { ActionTree } from 'vuex'
 import { StateInterface } from '../index'
-import { ITurtleState } from './state'
+import { ITurtle, ITurtleState } from './state'
 
 const actions: ActionTree<ITurtleState, StateInterface> = {
-  someAction (/* context */) {
-    // your code
+  async fetchTurtleInfoList ({ commit }) {
+    const { data } = await api.get<ITurtle[]>('turtles')
+    commit('addTurtles', data)
   }
 }
 

@@ -1,9 +1,11 @@
 import { MutationTree } from 'vuex'
-import { ITurtleState } from './state'
+import { ITurtle, ITurtleState } from './state'
 
 const mutation: MutationTree<ITurtleState> = {
-  someMutation (/* state: ExampleStateInterface */) {
-    // your code
+  addTurtles (state, turtles: ITurtle[]) {
+    turtles.forEach(turtle => {
+      state.turtles[turtle.id] = turtle
+    })
   }
 }
 
