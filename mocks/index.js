@@ -5,7 +5,7 @@ module.exports = function ({ app }) {
   const router = Router()
 
   router.get('/turtles', (req, res) => {
-    res.send([
+    res.json([
       {
         id: '1',
         name: 'turtle1',
