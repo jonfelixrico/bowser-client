@@ -1,17 +1,14 @@
 <template>
-  <div>
+  <div :style="containerStyle" class="relative-position">
     <div
-      v-for="(xRow, index) of grid"
-      :key="index"
-      class="grid-row no-scroll"
+      v-for="{ x, z, style } of grid"
+      :key="[x, z].join('/')"
+      :style="style"
+      class="absolute"
+      style="outline: red 1px solid;"
+      :class="{ 'bg-red': posMap[x] && posMap[x][z] }"
     >
-      <div
-        v-for="{ x, z } of xRow"
-        :key="[x, z].join('/')"
-        :style="{ width: `${cellSize}px`, height: `${cellSize}px` }"
-        class="grid-cell"
-      >
-      </div>
+      {{ [x, z].join(', ') }}
     </div>
   </div>
 </template>
@@ -28,11 +25,11 @@ interface IBoundaryBuffers {
 const CELL_SIZE = 50
 
 function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
-  const grid = computed(() => {
+  const meta = computed(() => {
     const turtles = turtlesRef.value
 
     if (!turtles.length) {
-      return []
+      return null
     }
 
     const xArr = turtles.map(({ x }) => x).sort((a, b) => a - b)
@@ -43,27 +40,61 @@ function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
     const zMin = zArr[0] - buffers.z
     const zMax = zArr[zArr.length - 1] + buffers.z
 
-    const xLength = xMax - xMin
-    const zLength = zMax - zMin
+    // +1 because of inclusivity
+    const xLength = xMax - xMin + 1
+    const zLength = zMax - zMin + 1
 
-    console.log(xLength)
-    console.log(zLength)
+    return {
+      xMin,
+      zMin,
+      xLength,
+      zLength
+    }
+  })
+
+  const grid = computed(() => {
+    if (!meta.value) {
+      return []
+    }
+
+    const { xMin, zMin, xLength, zLength } = meta.value
 
     return Array(zLength)
       .fill(null)
-      .map((_, index) => {
-        const z = zMin + index
+      .map((_, zIndex) => {
         return Array(xLength)
           .fill(null)
-          .map((_, index) => {
-            const x = xMin + index
-            return { z, x }
+          .map((_, xIndex) => {
+            return {
+              x: xMin + xIndex,
+              z: zMin + zIndex,
+              style: {
+                top: `${CELL_SIZE * zIndex}px`,
+                left: `${CELL_SIZE * xIndex}px`,
+                width: `${CELL_SIZE}px`,
+                height: `${CELL_SIZE}px`
+              }
+            }
           })
       })
+      .flat()
+  })
+
+  const containerStyle = computed(() => {
+    if (!meta.value) {
+      return []
+    }
+
+    const { xLength, zLength } = meta.value
+    return {
+      width: `${xLength * CELL_SIZE}px`,
+      height: `${zLength * CELL_SIZE}px`
+    }
   })
 
   return {
-    grid
+    grid,
+    containerStyle
   }
 }
 
