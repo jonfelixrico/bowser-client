@@ -1,20 +1,27 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-scroll-area :style="{ height: `${pageHeight}px` }" class="full-width">
-      <!-- TODO add content here -->
-      YODAYO
+      <c-visualizer :turtles="turtles" />
     </q-scroll-area>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
+import CVisualizer from 'components/CVisualizer.vue'
+import { useStore } from 'src/store'
 
 export default defineComponent({
+  components: {
+    CVisualizer
+  },
+
   setup () {
+    const store = useStore()
     return {
-      ...useQPageStyleFn()
+      ...useQPageStyleFn(),
+      turtles: computed(() => Object.values(store.state.turtles.turtles))
     }
   }
 })
