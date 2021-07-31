@@ -17,9 +17,15 @@
 </template>
 
 <script lang="ts">
-
-import { defineComponent } from 'vue'
+import { useStore } from 'src/store'
+import { defineComponent, onMounted } from 'vue'
 
 export default defineComponent({
+  setup () {
+    const store = useStore()
+    onMounted(async () => {
+      await store.dispatch('turtles/fetchTurtleList')
+    })
+  }
 })
 </script>
