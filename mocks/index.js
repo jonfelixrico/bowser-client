@@ -18,9 +18,9 @@ module.exports = function ({ app }) {
       {
         id: '2',
         name: 'turtle2',
-        x: 69,
+        x: 10,
         y: 0,
-        z: -69,
+        z: -10,
         fuelLevel: 10,
         fuelLimit: 1000
       },
@@ -29,12 +29,12 @@ module.exports = function ({ app }) {
         name: 'turtle3',
         x: 17,
         y: 0,
-        z: 38,
+        z: 20,
         fuelLevel: 150,
         fuelLimit: 1000
       },
       {
-        id: '3',
+        id: '4',
         name: 'turtle4',
         x: 1,
         y: 1,
