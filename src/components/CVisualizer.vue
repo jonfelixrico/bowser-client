@@ -10,8 +10,9 @@
         v-for="{ x, z } of xRow"
         :key="[x, z].join('/')"
         :style="{ height: `${cellSize}px`, width: `${cellSize}px` }"
-        class="inline-block grid-cell"
+        class="inline-block grid-cell relative-position"
         :class="{ 'turtle': posMap[x] && posMap[x][z] }"
+        v-ripple="!!(posMap[x] && posMap[x][z])"
       >
         <div class="fit flex flex-center">
           {{ [x, z].join(', ') }}
@@ -149,6 +150,7 @@ export default defineComponent({
     .grid-cell.turtle {
       background-color: $primary;
       color: white;
+      cursor: pointer;
     }
 
     .grid-cell:last-child {
