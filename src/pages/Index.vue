@@ -1,7 +1,9 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-scroll-area :style="{ height: `${pageHeight}px` }" class="full-width">
-      <c-visualizer :turtles="turtles" />
+      <div class="fit flex flex-center">
+        <c-visualizer :turtles="turtles" />
+      </div>
     </q-scroll-area>
   </q-page>
 </template>
