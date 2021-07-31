@@ -1,14 +1,19 @@
 <template>
-  <div :style="containerStyle" class="relative-position">
+  <div :style="containerStyle" class="grid">
     <div
-      v-for="{ x, z, style } of grid"
-      :key="[x, z].join('/')"
-      :style="style"
-      class="absolute"
-      style="outline: red 1px solid;"
-      :class="{ 'bg-red': posMap[x] && posMap[x][z] }"
+      v-for="(xRow, index) of grid"
+      :key="index"
+      :style="{ height: `${cellSize}px` }"
+      class="grid-row"
     >
-      {{ [x, z].join(', ') }}
+      <div
+        v-for="{ x, z } of xRow"
+        :key="[x, z].join('/')"
+        :style="{ height: `${cellSize}px`, width: `${cellSize}px` }"
+        class="inline-block grid-cell"
+      >
+        {{ [x, z].join(', ') }}
+      </div>
     </div>
   </div>
 </template>
@@ -67,17 +72,10 @@ function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
           .map((_, xIndex) => {
             return {
               x: xMin + xIndex,
-              z: zMin + zIndex,
-              style: {
-                top: `${CELL_SIZE * zIndex}px`,
-                left: `${CELL_SIZE * xIndex}px`,
-                width: `${CELL_SIZE}px`,
-                height: `${CELL_SIZE}px`
-              }
+              z: zMin + zIndex
             }
           })
       })
-      .flat()
   })
 
   const containerStyle = computed(() => {
@@ -122,7 +120,7 @@ export default defineComponent({
       ...useGrid(
         toRef(props, 'turtles'),
         // TODO make reactive
-        { x: 0, z: 0 }
+        { x: 5, z: 5 }
       ),
       posMap,
       cellSize: CELL_SIZE
@@ -132,12 +130,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.grid-row {
-  white-space: nowrap;
-}
+.grid {
+  .grid-row {
+    white-space: nowrap;
 
-.grid-cell {
-  display: inline-block;
-  border: 1px red solid;
+    .grid-cell {
+      display: inline-block;
+      border-color: $primary;
+      border-style: solid;
+      border-width: 0px;
+      border-left-width: 1px;
+      border-top-width: 1px;
+    }
+
+    .grid-cell:last-child {
+      border-right: 1px $primary solid;
+    }
+  }
+
+  .grid-row:last-child {
+    .grid-cell {
+      border-bottom: 1px $primary solid;
+    }
+  }
 }
 </style>
