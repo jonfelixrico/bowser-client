@@ -1,10 +1,12 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }">
-      <c-layer-drawer bordered model-value side="right" :turtles="turtles" />
+      <c-layer-drawer bordered model-value side="right" :turtles="turtles" @click="onTurtleClick">
+        <router-view />
+      </c-layer-drawer>
 
       <q-page-container>
-        <c-visualizer-content :turtles="turtles" />
+        <c-visualizer-content :turtles="turtles" @click="onTurtleClick" />
       </q-page-container>
     </q-layout>
   </q-page>
@@ -12,6 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
 import { useStore } from 'src/store'
 import CVisualizerContent from 'src/components/CVisualizerContent.vue'
@@ -29,6 +32,8 @@ export default defineComponent({
 
   setup (props) {
     const store = useStore()
+    const router = useRouter()
+
     const turtles = computed(
       () => {
         const yLevel = parseInt(props.yLevel)
@@ -42,9 +47,19 @@ export default defineComponent({
       }
     )
 
+    async function onTurtleClick (turtleId: string) {
+      await router.push({
+        name: 'turtleInfo',
+        params: {
+          turtleId
+        }
+      })
+    }
+
     return {
       ...useQPageStyleFn(),
-      turtles
+      turtles,
+      onTurtleClick
     }
   }
 })

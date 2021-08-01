@@ -9,7 +9,15 @@ const routes: RouteRecordRaw[] = [
         path: ':yLevel',
         name: 'layerView',
         component: () => import('pages/Index.vue'),
-        props: true
+        props: true,
+        children: [
+          {
+            path: ':turtleId',
+            name: 'turtleInfo',
+            props: true,
+            component: () => import('pages/SelectedTurtle.vue')
+          }
+        ]
       }
     ]
   },
