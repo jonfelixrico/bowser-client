@@ -1,6 +1,5 @@
 <template>
-  <div class="q-pa-sm">
-    <div class="q-gutter-y-sm">
+  <div class="q-gutter-y-sm">
     <div class="row justify-center">
       <q-btn round unelevated color="primary" icon="la la-arrow-up"/>
     </div>
