@@ -19,24 +19,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
-import { useEventSource } from '@vueuse/core'
+import { defineComponent, watch, onBeforeUnmount } from 'vue'
 import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 import { api } from 'src/boot/axios'
-import { getStore } from 'src/store'
+import { getStore, useStore } from 'src/store'
+import { useSse } from 'src/hooks/useSse'
 
 export default defineComponent({
   components: { CTurtleOverviewDrawer },
 
   setup () {
-    const { status, data } = useEventSource(`${api.defaults.baseURL || ''}/sse`)
-    watch(status, (value) => {
-      if (value === 'OPEN') {
-        watch(data, (data) => {
-          console.debug(data)
-        })
+    const { close, data } = useSse(`${api.defaults.baseURL || ''}/sse`)
+    const store = useStore()
+
+    watch(data, (sseData) => {
+      if (!sseData) {
+        return
       }
+
+      // we'll be expecting all messages to be turtle data updates for now
+      // TODO filter by message types
+      store.commit('turtles/setTurtles', [sseData.data])
     })
+
+    onBeforeUnmount(() => close())
+
+    return {}
   },
 
   async beforeRouteEnter (to, from, next) {
