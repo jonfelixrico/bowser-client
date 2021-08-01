@@ -1,17 +1,25 @@
 <template>
   <div class="q-gutter-y-sm">
     <div class="row justify-center">
+      <q-input v-model="northStep" outlined />
+    </div>
+    <div class="row justify-center">
       <q-btn round unelevated color="primary" icon="la la-arrow-up" @click="onZMove(-1)" />
     </div>
     <div class="row">
+      <q-input v-model="westStep" outlined />
       <q-space />
       <q-btn round unelevated color="primary" icon="la la-arrow-left"  @click="onXMove(-1)" />
       <q-space />
       <q-btn round unelevated color="primary" icon="la la-arrow-right" @click="onXMove(1)" />
       <q-space />
+      <q-input v-model="eastStep" outlined />
     </div>
     <div class="row justify-center">
       <q-btn round color="primary" icon="la la-arrow-down" @click="onZMove(1)" />
+    </div>
+    <div class="row justify-center">
+      <q-input v-model="southStep" outlined />
     </div>
   </div>
 </template>
@@ -46,7 +54,62 @@ export default defineComponent({
   },
 
   emits: {
-    'update:coords': null
+    'update:coords': null,
+    'update:steps': null
+  },
+
+  computed: {
+    northStep: {
+      get (): number {
+        return this.steps.north
+      },
+
+      set (north: number) {
+        this.$emit('update:steps', {
+          ...this.steps,
+          north
+        })
+      }
+    },
+
+    southStep: {
+      get (): number {
+        return this.steps.south
+      },
+
+      set (south: number) {
+        this.$emit('update:steps', {
+          ...this.steps,
+          south
+        })
+      }
+    },
+
+    eastStep: {
+      get (): number {
+        return this.steps.east
+      },
+
+      set (east: number) {
+        this.$emit('update:steps', {
+          ...this.steps,
+          east
+        })
+      }
+    },
+
+    westStep: {
+      get (): number {
+        return this.steps.west
+      },
+
+      set (west: number) {
+        this.$emit('update:steps', {
+          ...this.steps,
+          west
+        })
+      }
+    }
   },
 
   methods: {
