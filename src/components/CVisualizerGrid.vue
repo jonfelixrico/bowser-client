@@ -16,6 +16,7 @@
           v-if="checkIfHasTurtle(x, z)"
           v-ripple
           class="fit flex flex-center turtle relative-position"
+          :class="getBearingClass(x, z)"
           @click="onClick(x, z)"
         >
           {{ [x, z].join(', ') }}
@@ -36,6 +37,13 @@ import { defineComponent, PropType, computed, toRef, Ref } from 'vue'
 interface IBoundaryBuffers {
   x: number
   z: number
+}
+
+const BearingClass: Record<number, string> = {
+  1: 'north',
+  2: 'east',
+  3: 'south',
+  4: 'west'
 }
 
 const CELL_SIZE = 50
@@ -129,18 +137,34 @@ export default defineComponent({
       return map
     })
 
+    // TODO integrate all this crap with the computed prop
+
+    function getTurtle (x: number, z: number) {
+      return posMap.value[x] && posMap.value[x][z]
+    }
+
     function checkIfHasTurtle (x: number, z: number) {
-      return !!(posMap.value[x] && posMap.value[x][z])
+      return !!getTurtle(x, z)
     }
 
     function onClick (x: number, z: number) {
-      const turtle = posMap.value[x] && posMap.value[x][z]
+      const turtle = getTurtle(x, z)
 
       if (!turtle) {
         return
       }
 
       emit('click', turtle.id)
+    }
+
+    function getBearingClass (x: number, z: number) {
+      const turtle = getTurtle(x, z)
+
+      if (!turtle) {
+        return
+      }
+
+      return BearingClass[turtle.bearing]
     }
 
     return {
@@ -154,6 +178,7 @@ export default defineComponent({
 
       checkIfHasTurtle,
       onClick,
+      getBearingClass
     }
   },
 })
@@ -164,6 +189,25 @@ export default defineComponent({
   background-color: $primary;
   color: white;
   cursor: pointer;
+  border-width: 0;
+  border-color: red;
+  border-style: solid;
+}
+
+.turtle.north {
+  border-top-width: 3px;
+}
+
+.turtle.south {
+  border-bottom-width: 3px;
+}
+
+.turtle.east {
+  border-right-width: 3px;
+}
+
+.turtle.west {
+  border-left-width: 3px;
 }
 
 .grid {

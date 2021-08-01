@@ -6,6 +6,7 @@ export interface ITurtle {
   z: number
   fuelLimit: number
   fuelLevel: number
+  bearing: number
 }
 
 export interface ITurtleState {
