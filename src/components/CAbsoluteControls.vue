@@ -44,20 +44,40 @@ export default defineComponent({
     'update:coords': null
   },
 
+  computed: {
+    x: {
+      get (): number {
+        return this.coords.x
+      },
+
+      set (x: number) {
+        this.$emit('update:coords', { ...this.coords, x })
+      }
+    },
+
+    z: {
+      get (): number {
+        return this.coords.z
+      },
+
+      set (z: number) {
+        this.$emit('update:coords', { ...this.coords, z })
+      }
+    },
+  },
+
   methods: {
     /**
      * Does movement on the x axis.
      * @param direction 1 for east, -1 for west. Only these two coordss are expected.
      */
     onXMove (direction: number) {
-      const { steps, coords } = this
-      const { x } = coords
-      const { east, west } = steps
+      const { east, west } = this.steps
 
       if (direction > 1) {
-        this.$emit('update:coords', x + east)
+        this.x += east
       } else { // only coords here would be -1
-        this.$emit('update:coords', x - west)
+        this.x -= west
       }
     },
 
@@ -66,14 +86,12 @@ export default defineComponent({
      * @param direction 1 for south, -1 for north. Only these two coordss are expected.
      */
     onZMove (direction: number) {
-      const { steps, coords } = this
-      const { z } = coords
-      const { north, south } = steps
+      const { north, south } = this.steps
 
       if (direction > 1) {
-        this.$emit('update:coords', z + south)
+        this.z += south
       } else { // only coords here would be -1
-        this.$emit('update:coords', z - north)
+        this.z -= north
       }
     },
   }
