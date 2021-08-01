@@ -14,9 +14,7 @@
 
     </q-drawer>
 
-    <q-drawer side="left" model-value bordered>
-
-    </q-drawer>
+    <c-turtle-overview-drawer model-value bordered />
 
     <q-page-container>
       <router-view />
@@ -27,8 +25,10 @@
 <script lang="ts">
 import { useStore } from 'src/store'
 import { defineComponent, onMounted } from 'vue'
+import CTurtleOverviewDrawer from './CTurtleOverviewDrawer.vue'
 
 export default defineComponent({
+  components: { CTurtleOverviewDrawer },
   setup () {
     const store = useStore()
     onMounted(async () => {
