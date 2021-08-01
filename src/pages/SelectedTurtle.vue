@@ -2,7 +2,7 @@
   <div>
     <q-separator />
     <div class="q-pa-sm row">
-      <div>{{ turtle.name ? turtle.name : 'No Label' }} / {{ turtle.id }}</div>
+      <div>{{ turtle.label ? turtle.label : 'No Label' }} / {{ turtle.id }}</div>
       <q-space />
       <div>{{ [turtle.x, turtle.y, turtle.z].join(', ') }}</div>
     </div>
