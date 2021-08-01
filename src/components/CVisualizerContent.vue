@@ -9,21 +9,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
 import CVisualizerGrid from 'components/CVisualizerGrid.vue'
-import { useStore } from 'src/store'
+import { ITurtle } from 'src/store/turtles/state'
 
 export default defineComponent({
   components: {
     CVisualizerGrid
   },
 
+  props: {
+    turtles: {
+      type: Array as PropType<ITurtle[]>,
+      default: () => []
+    }
+  },
+
   setup () {
-    const store = useStore()
     return {
-      ...useQPageStyleFn(),
-      turtles: computed(() => Object.values(store.state.turtles.turtles))
+      ...useQPageStyleFn()
     }
   }
 })
