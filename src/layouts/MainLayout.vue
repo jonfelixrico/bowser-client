@@ -21,7 +21,7 @@
 <script lang="ts">
 import { useStore } from 'src/store'
 import { defineComponent, onMounted } from 'vue'
-import CTurtleOverviewDrawer from './CTurtleOverviewDrawer.vue'
+import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 
 export default defineComponent({
   components: { CTurtleOverviewDrawer },
