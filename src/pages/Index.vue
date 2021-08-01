@@ -1,8 +1,7 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }">
-      <q-drawer model-value side="right">
-      </q-drawer>
+      <c-layer-drawer bordered model-value side="right" :turtles="turtles" />
 
       <q-page-container>
         <c-visualizer-content :turtles="turtles" />
@@ -16,9 +15,10 @@ import { defineComponent, computed } from 'vue'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
 import { useStore } from 'src/store'
 import CVisualizerContent from 'src/components/CVisualizerContent.vue'
+import CLayerDrawer from 'src/components/CLayerDrawer.vue'
 
 export default defineComponent({
-  components: { CVisualizerContent },
+  components: { CVisualizerContent, CLayerDrawer },
 
   props: {
     yLevel: {
