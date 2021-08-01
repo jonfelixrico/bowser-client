@@ -4,7 +4,7 @@
       <div class="col relative-position">
         <q-scroll-area class="absolute-full">
           <q-list separator>
-            <q-item v-for="{ x, z, id, label } of turtles" :key="id" clickable>
+            <q-item v-for="{ x, z, id, label } of turtles" :key="id" clickable @click="$emit('click', id)">
               <q-item-section>
                 <!-- TODO i18nize these -->
                 <q-item-label>{{ label ? label : 'No Label' }}</q-item-label>
@@ -34,6 +34,8 @@ export default defineComponent({
       type: Array as PropType<ITurtle[]>,
       required: true
     }
-  }
+  },
+
+  emits: ['click']
 })
 </script>

@@ -10,11 +10,18 @@
         v-for="{ x, z } of xRow"
         :key="[x, z].join('/')"
         :style="{ height: `${cellSize}px`, width: `${cellSize}px` }"
-        class="inline-block grid-cell relative-position"
-        :class="{ 'turtle': posMap[x] && posMap[x][z] }"
-        v-ripple="!!(posMap[x] && posMap[x][z])"
+        class="inline-block grid-cell"
       >
-        <div class="fit flex flex-center">
+        <div
+          v-if="checkIfHasTurtle(x, z)"
+          v-ripple
+          class="fit flex flex-center turtle relative-position"
+          @click="onClick(x, z)"
+        >
+          {{ [x, z].join(', ') }}
+        </div>
+
+        <div v-else class="fit flex flex-center">
           {{ [x, z].join(', ') }}
         </div>
       </div>
@@ -108,7 +115,9 @@ export default defineComponent({
     }
   },
 
-  setup (props) {
+  emits: ['click'],
+
+  setup (props, { emit }) {
     const posMap = computed(() => {
       const map: Record<number, Record<number, ITurtle>> = {}
 
@@ -120,6 +129,20 @@ export default defineComponent({
       return map
     })
 
+    function checkIfHasTurtle (x: number, z: number) {
+      return !!(posMap.value[x] && posMap.value[x][z])
+    }
+
+    function onClick (x: number, z: number) {
+      const turtle = posMap.value[x] && posMap.value[x][z]
+
+      if (!turtle) {
+        return
+      }
+
+      emit('click', turtle.id)
+    }
+
     return {
       ...useGrid(
         toRef(props, 'turtles'),
@@ -127,13 +150,22 @@ export default defineComponent({
         { x: 5, z: 5 }
       ),
       posMap,
-      cellSize: CELL_SIZE
+      cellSize: CELL_SIZE,
+
+      checkIfHasTurtle,
+      onClick
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+.turtle {
+  background-color: $primary;
+  color: white;
+  cursor: pointer;
+}
+
 .grid {
   .grid-row {
     white-space: nowrap;
@@ -145,12 +177,6 @@ export default defineComponent({
       border-width: 0px;
       border-left-width: 1px;
       border-top-width: 1px;
-    }
-
-    .grid-cell.turtle {
-      background-color: $primary;
-      color: white;
-      cursor: pointer;
     }
 
     .grid-cell:last-child {

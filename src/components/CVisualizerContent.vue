@@ -2,7 +2,7 @@
   <q-page :style-fn="styleFn">
     <q-scroll-area :style="{ height: `${pageHeight}px` }" class="full-width">
       <div class="flex flex-center q-pa-sm" :style="{ minHeight: `${pageHeight}px` }">
-        <c-visualizer-grid :turtles="turtles" />
+        <c-visualizer-grid :turtles="turtles" @click="$emit('click', $event)" />
       </div>
     </q-scroll-area>
   </q-page>
@@ -25,6 +25,8 @@ export default defineComponent({
       default: () => []
     }
   },
+
+  emits: ['click'],
 
   setup () {
     return {
