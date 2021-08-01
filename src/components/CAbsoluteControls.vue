@@ -26,8 +26,6 @@ export interface IHorizontalCoords {
   z: number
 }
 
-const BTN_SIZE = 15
-
 // TODO use the component api
 export default defineComponent({
   props: {
@@ -39,12 +37,6 @@ export default defineComponent({
     coords: {
       type: Object as PropType<IHorizontalCoords>,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      BTN_SIZE
     }
   },
 
