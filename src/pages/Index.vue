@@ -22,7 +22,7 @@ export default defineComponent({
 
   props: {
     yLevel: {
-      type: Number,
+      type: String,
       required: true
     }
   },
