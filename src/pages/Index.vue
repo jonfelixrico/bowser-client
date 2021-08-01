@@ -5,7 +5,7 @@
       </q-drawer>
 
       <q-page-container>
-        <c-visualizer-content />
+        <c-visualizer-content :turtles="turtles" />
       </q-page-container>
     </q-layout>
   </q-page>
@@ -19,6 +19,14 @@ import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 
 export default defineComponent({
   components: { CVisualizerContent },
+
+  props: {
+    yLevel: {
+      type: Number,
+      required: true
+    }
+  },
+
   setup () {
     const store = useStore()
     return {
