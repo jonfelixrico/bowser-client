@@ -16,22 +16,22 @@ import { ITurtle } from 'src/store/turtles/state'
 
 export default defineComponent({
   components: {
-    CVisualizerGrid
+    CVisualizerGrid,
   },
 
   props: {
     turtles: {
       type: Array as PropType<ITurtle[]>,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   emits: ['click'],
 
   setup () {
     return {
-      ...useQPageStyleFn()
+      ...useQPageStyleFn(),
     }
-  }
+  },
 })
 </script>

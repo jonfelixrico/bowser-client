@@ -64,7 +64,7 @@ function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
       xMin,
       zMin,
       xLength,
-      zLength
+      zLength,
     }
   })
 
@@ -83,7 +83,7 @@ function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
           .map((_, xIndex) => {
             return {
               x: xMin + xIndex,
-              z: zMin + zIndex
+              z: zMin + zIndex,
             }
           })
       })
@@ -97,13 +97,13 @@ function useGrid (turtlesRef: Ref<ITurtle[]>, buffers: IBoundaryBuffers) {
     const { xLength, zLength } = meta.value
     return {
       width: `${xLength * CELL_SIZE}px`,
-      height: `${zLength * CELL_SIZE}px`
+      height: `${zLength * CELL_SIZE}px`,
     }
   })
 
   return {
     grid,
-    containerStyle
+    containerStyle,
   }
 }
 
@@ -111,8 +111,8 @@ export default defineComponent({
   props: {
     turtles: {
       type: Array as PropType<ITurtle[]>,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   emits: ['click'],
@@ -147,15 +147,15 @@ export default defineComponent({
       ...useGrid(
         toRef(props, 'turtles'),
         // TODO make reactive
-        { x: 5, z: 5 }
+        { x: 5, z: 5 },
       ),
       posMap,
       cellSize: CELL_SIZE,
 
       checkIfHasTurtle,
-      onClick
+      onClick,
     }
-  }
+  },
 })
 </script>
 

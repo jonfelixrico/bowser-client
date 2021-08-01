@@ -15,19 +15,19 @@ const routes: RouteRecordRaw[] = [
             path: 'turtle/:turtleId',
             name: 'turtleInfo',
             props: true,
-            component: () => import('pages/SelectedTurtle.vue')
-          }
-        ]
-      }
-    ]
+            component: () => import('pages/SelectedTurtle.vue'),
+          },
+        ],
+      },
+    ],
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
-  }
+    component: () => import('pages/Error404.vue'),
+  },
 ]
 
 export default routes

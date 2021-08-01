@@ -7,7 +7,7 @@ const actions: ActionTree<ITurtleState, StateInterface> = {
   async fetchTurtleList ({ commit }) {
     const { data } = await api.get<ITurtle[]>('turtles')
     commit('addTurtles', data)
-  }
+  },
 }
 
 export default actions

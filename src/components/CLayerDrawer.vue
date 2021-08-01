@@ -32,8 +32,8 @@ export default defineComponent({
   props: {
     turtles: {
       type: Array as PropType<ITurtle[]>,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 })
 </script>

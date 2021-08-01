@@ -3,7 +3,7 @@ import { InjectionKey } from 'vue'
 import {
   createStore,
   Store as VuexStore,
-  useStore as vuexUseStore
+  useStore as vuexUseStore,
 } from 'vuex'
 import turtlesModule from './turtles'
 import { ITurtleState } from './turtles/state'
@@ -44,12 +44,12 @@ const staticExportStore: { store?: VuexStore<StateInterface> } = {}
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      turtles: turtlesModule
+      turtles: turtlesModule,
     },
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only
-    strict: !!process.env.DEBUGGING
+    strict: !!process.env.DEBUGGING,
   })
 
   staticExportStore.store = Store

@@ -22,7 +22,7 @@ function setUpDevServer () {
   if (!PROXY_FROM || !PROXY_TO) {
     return {
       // mocks will only be activated if we're not going to fire up the proxy
-      onBeforeSetupMiddleware: require('./mocks')
+      onBeforeSetupMiddleware: require('./mocks'),
     }
   }
 
@@ -33,9 +33,9 @@ function setUpDevServer () {
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         pathRewrite: { [`^${PROXY_FROM}`]: '' },
         ws: true, // websockets support
-        compress: false // avoid messing up SSE connections
-      }
-    }
+        compress: false, // avoid messing up SSE connections
+      },
+    },
   }
 }
 
@@ -46,9 +46,9 @@ module.exports = configure(function (ctx) {
       tsCheckerConfig: {
         eslint: {
           enabled: true,
-          files: './src/**/*.{ts,tsx,js,jsx,vue}'
-        }
-      }
+          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
@@ -59,12 +59,12 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/boot-files
     boot: [
       'i18n',
-      'axios'
+      'axios',
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.scss'
+      'app.scss',
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -78,7 +78,7 @@ module.exports = configure(function (ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -106,7 +106,7 @@ module.exports = configure(function (ctx) {
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
       chainWebpack (/* chain */) {
         //
-      }
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -114,7 +114,7 @@ module.exports = configure(function (ctx) {
       https: false,
       port: 8080,
       open: false, // opens browser window automatically
-      ...setUpDevServer()
+      ...setUpDevServer(),
     },
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -132,7 +132,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [],
     },
 
     // animations: 'all', // --- includes all animations
@@ -158,8 +158,8 @@ module.exports = configure(function (ctx) {
 
       middlewares: [
         ctx.prod ? 'compression' : '',
-        'render' // keep this as last one
-      ]
+        'render', // keep this as last one
+      ],
     },
 
     // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
@@ -185,30 +185,30 @@ module.exports = configure(function (ctx) {
           {
             src: 'icons/icon-128x128.png',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+            type: 'image/png',
+          },
+        ],
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
@@ -218,7 +218,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: true,
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
@@ -241,7 +241,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'bowser-client'
+        appId: 'bowser-client',
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
@@ -254,7 +254,7 @@ module.exports = configure(function (ctx) {
       chainWebpackPreload (/* chain */) {
         // do something with the Electron main process Webpack cfg
         // extendWebpackPreload also available besides this chainWebpackPreload
-      }
-    }
+      },
+    },
   }
 })

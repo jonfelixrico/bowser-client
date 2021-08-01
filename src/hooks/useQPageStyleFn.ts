@@ -9,8 +9,8 @@ export function useQPageStyleFn () {
     styleFn (offset: number, height: number) {
       const qPageHeight = pageHeight.value = height - offset
       return {
-        height: `${qPageHeight}px`
+        height: `${qPageHeight}px`,
       }
-    }
+    },
   }
 }

@@ -10,7 +10,7 @@ const turtlesModule: Module<ITurtleState, StateInterface> = {
   actions,
   getters,
   mutations,
-  state
+  state,
 }
 
 export default turtlesModule

@@ -41,8 +41,8 @@ export default defineComponent({
   props: {
     turtleId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   setup (props) {
@@ -53,22 +53,22 @@ export default defineComponent({
       await api.post('commands', {
         commands: [{
           id: props.turtleId,
-          actions: [action]
-        }]
+          actions: [action],
+        }],
       })
     }
 
     async function onXMove (offset: number) {
       await sendCommand({
         action: 'MOVE_TO_X',
-        args: [turtle.value.x + offset]
+        args: [turtle.value.x + offset],
       })
     }
 
     async function onZMove (offset: number) {
       await sendCommand({
         action: 'MOVE_TO_Z',
-        args: [turtle.value.z + offset]
+        args: [turtle.value.z + offset],
       })
     }
 
@@ -76,9 +76,9 @@ export default defineComponent({
       turtle,
 
       onXMove,
-      onZMove
+      onZMove,
     }
-  }
+  },
 })
 </script>
 

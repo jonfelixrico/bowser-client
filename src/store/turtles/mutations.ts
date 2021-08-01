@@ -6,7 +6,7 @@ const mutation: MutationTree<ITurtleState> = {
     turtles.forEach(turtle => {
       state.turtles[turtle.id] = turtle
     })
-  }
+  },
 }
 
 export default mutation

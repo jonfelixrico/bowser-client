@@ -23,6 +23,6 @@ import { defineComponent } from 'vue'
 import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 
 export default defineComponent({
-  components: { CTurtleOverviewDrawer }
+  components: { CTurtleOverviewDrawer },
 })
 </script>

@@ -14,7 +14,7 @@ export interface ITurtleState {
 
 function state (): ITurtleState {
   return {
-    turtles: {}
+    turtles: {},
   }
 }
 

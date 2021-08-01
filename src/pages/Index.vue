@@ -27,8 +27,8 @@ export default defineComponent({
   props: {
     yLevel: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   setup (props) {
@@ -45,22 +45,22 @@ export default defineComponent({
             const zDiff = a.z - b.z
             return zDiff === 0 ? a.x - b.x : zDiff
           })
-      }
+      },
     )
 
     async function onTurtleClick (turtleId: string) {
       await router.push({
         name: 'turtleInfo',
         params: {
-          turtleId
-        }
+          turtleId,
+        },
       })
     }
 
     return {
       ...useQPageStyleFn(),
       turtles,
-      onTurtleClick
+      onTurtleClick,
     }
   },
 
@@ -73,6 +73,6 @@ export default defineComponent({
 
     await store.dispatch('turtles/fetchTurtleList')
     next()
-  }
+  },
 })
 </script>

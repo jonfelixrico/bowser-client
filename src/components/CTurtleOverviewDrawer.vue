@@ -55,14 +55,14 @@ export default defineComponent({
             turtles: group.sort((a, b) => {
               const zDiff = a.z - b.z
               return zDiff === 0 ? a.x - b.x : zDiff
-            })
+            }),
           }
         })
     })
 
     return {
-      overview
+      overview,
     }
-  }
+  },
 })
 </script>
