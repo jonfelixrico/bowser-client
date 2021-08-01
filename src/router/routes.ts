@@ -5,7 +5,12 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: ':yLevel', component: () => import('pages/Index.vue'), props: true }
+      {
+        path: ':yLevel',
+        name: 'layerView',
+        component: () => import('pages/Index.vue'),
+        props: true
+      }
     ]
   },
 
