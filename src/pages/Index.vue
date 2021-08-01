@@ -1,14 +1,16 @@
 <template>
   <q-page :style-fn="styleFn">
-    <q-layout container :style="{ height: `${pageHeight}px` }">
+    <q-layout container :style="{ height: `${pageHeight}px` }" view="hHh LpR lFr">
       <!-- TODO use a proper breakpoint value; this is only for testing on mobile -->
-      <c-layer-drawer bordered model-value side="right" :turtles="turtles" breakpoint="0">
-        <router-view />
-      </c-layer-drawer>
+      <c-layer-drawer bordered model-value side="right" :turtles="turtles" breakpoint="0" />
 
       <q-page-container>
         <c-visualizer-content :turtles="turtles" @click="onTurtleClick" />
       </q-page-container>
+
+      <q-footer>
+        <router-view />
+      </q-footer>
     </q-layout>
   </q-page>
 </template>
