@@ -51,10 +51,10 @@ export default defineComponent({
 
     async function sendCommand (action: IAction) {
       await api.post('commands', {
-        commands: {
+        commands: [{
           id: props.turtleId,
           actions: [action]
-        }
+        }]
       })
     }
 
