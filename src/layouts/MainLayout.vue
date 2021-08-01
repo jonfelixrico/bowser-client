@@ -10,10 +10,6 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer side="right" model-value bordered>
-
-    </q-drawer>
-
     <c-turtle-overview-drawer model-value bordered />
 
     <q-page-container>

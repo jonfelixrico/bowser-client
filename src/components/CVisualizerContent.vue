@@ -1,24 +1,24 @@
 <template>
   <q-page :style-fn="styleFn">
-    <q-layout container :style="{ height: `${pageHeight}px` }">
-      <q-drawer model-value side="right">
-      </q-drawer>
-
-      <q-page-container>
-        <c-visualizer-content />
-      </q-page-container>
-    </q-layout>
+    <q-scroll-area :style="{ height: `${pageHeight}px` }" class="full-width">
+      <div class="fit flex flex-center q-pa-sm">
+        <c-visualizer-grid :turtles="turtles" />
+      </div>
+    </q-scroll-area>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
+import CVisualizerGrid from 'components/CVisualizerGrid.vue'
 import { useStore } from 'src/store'
-import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 
 export default defineComponent({
-  components: { CVisualizerContent },
+  components: {
+    CVisualizerGrid
+  },
+
   setup () {
     const store = useStore()
     return {
