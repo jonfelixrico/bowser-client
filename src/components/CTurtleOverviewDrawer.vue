@@ -2,7 +2,7 @@
   <q-drawer :v-bind="$attrs">
     <q-scroll-area class="fit">
       <q-list class="fit-width" separator>
-        <q-item v-for="{ y, turtles } of overview" :key="y" clickable>
+        <q-item v-for="{ y, turtles } of overview" :key="y" clickable :to="{ name: 'layerView', params: { yLevel: y } }">
           <q-item-section>
             <!-- i18nize this -->
             <q-item-label>{{ turtles.length }} Turtles</q-item-label>
