@@ -2,7 +2,7 @@
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }">
       <c-layer-drawer bordered model-value side="right" :turtles="turtles">
-        <router-view class="col-3" />
+        <router-view />
       </c-layer-drawer>
 
       <q-page-container>
