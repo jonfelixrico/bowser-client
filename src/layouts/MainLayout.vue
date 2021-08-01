@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh LpR lFf">
+    <q-header>
       <q-toolbar>
         <q-toolbar-title>
           Quasar App
@@ -9,6 +9,14 @@
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
+
+    <q-drawer side="right" model-value bordered>
+
+    </q-drawer>
+
+    <q-drawer side="left" model-value bordered>
+
+    </q-drawer>
 
     <q-page-container>
       <router-view />
