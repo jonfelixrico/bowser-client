@@ -27,11 +27,24 @@ export default defineComponent({
     }
   },
 
-  setup () {
+  setup (props) {
     const store = useStore()
+    const turtles = computed(
+      () => {
+        const yLevel = parseInt(props.yLevel)
+
+        return Object.values(store.state.turtles.turtles)
+          .filter(({ y }) => y === yLevel)
+          .sort((a, b) => {
+            const zDiff = a.z - b.z
+            return zDiff === 0 ? a.x - b.x : zDiff
+          })
+      }
+    )
+
     return {
       ...useQPageStyleFn(),
-      turtles: computed(() => Object.values(store.state.turtles.turtles))
+      turtles
     }
   }
 })
