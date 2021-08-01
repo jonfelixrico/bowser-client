@@ -1,7 +1,7 @@
 <template>
   <div class="q-gutter-y-sm">
     <div class="row justify-center">
-      <q-btn round unelevated color="primary" icon="la la-arrow-up"/>
+      <q-btn round unelevated color="primary" icon="la la-arrow-up" @click="onZMove(-1)" />
     </div>
     <div class="row">
       <q-space />
@@ -11,7 +11,7 @@
       <q-space />
     </div>
     <div class="row justify-center">
-      <q-btn round color="primary" icon="la la-arrow-down" />
+      <q-btn round color="primary" icon="la la-arrow-down" @click="onZMove(1)" />
     </div>
   </div>
 </template>
