@@ -7,28 +7,13 @@
       <div>{{ [turtle.x, turtle.y, turtle.z].join(', ') }}</div>
     </div>
     <q-separator />
-    <div class="q-pa-sm">
-      <div class="q-gutter-y-sm">
-      <div class="row justify-center">
-        <q-btn round unelevated color="primary" icon="la la-arrow-up" @click="onZMove(-1)" />
-      </div>
-      <div class="row">
-        <q-space />
-        <q-btn round unelevated color="primary" icon="la la-arrow-left"  @click="onXMove(-1)" />
-        <q-space />
-        <q-btn round unelevated color="primary" icon="la la-arrow-right" @click="onXMove(1)" />
-        <q-space />
-      </div>
-      <div class="row justify-center">
-        <q-btn round color="primary" icon="la la-arrow-down" @click="onZMove(1)" />
-      </div>
-    </div>
-    </div>
+    <c-absolute-controls :coords="turtle" :steps="{ north: 1, south: 1, east: 1, west: 1 }" />
   </div>
 </template>
 
 <script lang="ts">
 import { api } from 'src/boot/axios'
+import CAbsoluteControls from 'src/components/CAbsoluteControls.vue'
 import { useStore } from 'src/store'
 import { defineComponent, computed } from 'vue'
 
@@ -38,6 +23,8 @@ interface IAction {
 }
 
 export default defineComponent({
+  components: { CAbsoluteControls },
+
   props: {
     turtleId: {
       type: String,
