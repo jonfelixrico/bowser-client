@@ -15,6 +15,27 @@ const { configure } = require('quasar/wrappers')
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+const envConfig = require('dotenv-defaults').config().parsed
+
+function getProxySettings () {
+  const { PROXY_FROM, PROXY_TO } = envConfig
+  if (!PROXY_FROM || !PROXY_TO) {
+    return {}
+  }
+
+  return {
+    proxy: {
+      [PROXY_FROM]: {
+        target: PROXY_TO,
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        pathRewrite: { [`^${PROXY_FROM}`]: '' },
+        ws: true, // websockets support
+        compress: false // avoid messing up SSE connections
+      }
+    }
+  }
+}
+
 module.exports = configure(function (ctx) {
   return {
     // https://v2.quasar.dev/quasar-cli/supporting-ts
@@ -60,7 +81,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-      env: require('dotenv-defaults').config().parsed,
+      env: envConfig,
 
       // transpile: false,
 
@@ -90,7 +111,8 @@ module.exports = configure(function (ctx) {
       https: false,
       port: 8080,
       open: false, // opens browser window automatically,
-      onBeforeSetupMiddleware: require('./mocks')
+      onBeforeSetupMiddleware: require('./mocks'),
+      ...getProxySettings()
     },
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
