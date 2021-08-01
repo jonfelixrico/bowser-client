@@ -17,7 +17,7 @@
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
-import { useStore } from 'src/store'
+import { useStore, getStore } from 'src/store'
 import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 import CLayerDrawer from 'src/components/CLayerDrawer.vue'
 
@@ -62,6 +62,17 @@ export default defineComponent({
       turtles,
       onTurtleClick
     }
+  },
+
+  async beforeRouteEnter (to, from, next) {
+    const store = getStore()
+
+    if (!store) {
+      return next(false)
+    }
+
+    await store.dispatch('turtles/fetchTurtleList')
+    next()
   }
 })
 </script>

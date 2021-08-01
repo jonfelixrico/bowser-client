@@ -19,17 +19,10 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'src/store'
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent } from 'vue'
 import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 
 export default defineComponent({
-  components: { CTurtleOverviewDrawer },
-  setup () {
-    const store = useStore()
-    onMounted(async () => {
-      await store.dispatch('turtles/fetchTurtleList')
-    })
-  }
+  components: { CTurtleOverviewDrawer }
 })
 </script>
