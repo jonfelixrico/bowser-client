@@ -1,6 +1,6 @@
 <template>
   <q-drawer :v-bind="$attrs">
-    <q-scroll-area class="fit">
+    <q-scroll-area v-if="overview.length" class="fit">
       <q-list class="fit-width" separator>
         <q-item v-for="{ y, turtles } of overview" :key="y" clickable :to="{ name: 'layerView', params: { yLevel: y } }">
           <q-item-section>
@@ -13,6 +13,11 @@
         </q-item>
       </q-list>
     </q-scroll-area>
+
+    <div v-else class="fit flex flex-center">
+      <!-- TODO i18nize this -->
+      No turtles found.
+    </div>
   </q-drawer>
 </template>
 
