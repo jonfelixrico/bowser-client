@@ -17,10 +17,13 @@ const { configure } = require('quasar/wrappers')
 
 const envConfig = require('dotenv-defaults').config().parsed
 
-function getProxySettings () {
+function setUpDevServer () {
   const { PROXY_FROM, PROXY_TO } = envConfig
   if (!PROXY_FROM || !PROXY_TO) {
-    return {}
+    return {
+      // mocks will only be activated if we're not going to fire up the proxy
+      onBeforeSetupMiddleware: require('./mocks')
+    }
   }
 
   return {
@@ -110,9 +113,8 @@ module.exports = configure(function (ctx) {
     devServer: {
       https: false,
       port: 8080,
-      open: false, // opens browser window automatically,
-      onBeforeSetupMiddleware: require('./mocks'),
-      ...getProxySettings()
+      open: false, // opens browser window automatically
+      ...setUpDevServer()
     },
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
