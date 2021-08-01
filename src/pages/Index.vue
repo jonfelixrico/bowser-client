@@ -8,7 +8,7 @@
         <c-visualizer-content :turtles="turtles" @click="onTurtleClick" />
       </q-page-container>
 
-      <q-footer>
+      <q-footer class="bg-transparent text-black">
         <router-view />
       </q-footer>
     </q-layout>
