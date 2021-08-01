@@ -1,7 +1,7 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-scroll-area :style="{ height: `${pageHeight}px` }" class="full-width">
-      <div class="fit flex flex-center q-pa-sm">
+      <div class="flex flex-center q-pa-sm" :style="{ minHeight: `${pageHeight}px` }">
         <c-visualizer-grid :turtles="turtles" />
       </div>
     </q-scroll-area>
