@@ -1,5 +1,5 @@
 <template>
-  <div :style="containerStyle" class="grid text-caption disable-select">
+  <div :style="containerStyle" class="grid disable-select">
     <div
       v-for="(xRow, index) of presentationGrid"
       :key="index"
@@ -101,31 +101,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.turtle {
-  background-color: $primary;
-  color: white;
-  cursor: pointer;
-  border-width: 0;
-  border-color: red;
-  border-style: solid;
-}
-
-.turtle.north {
-  border-top-width: 3px;
-}
-
-.turtle.south {
-  border-bottom-width: 3px;
-}
-
-.turtle.east {
-  border-right-width: 3px;
-}
-
-.turtle.west {
-  border-left-width: 3px;
-}
-
 .grid {
   .grid-row {
     white-space: nowrap;
