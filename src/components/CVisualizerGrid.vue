@@ -1,5 +1,5 @@
 <template>
-  <div class="grid disable-select">
+  <div class="grid disable-select" :style="containerStyle">
     <div
       v-for="(xRow, index) of presentationGrid"
       :key="index"
@@ -54,6 +54,7 @@ export default defineComponent({
 
   setup (props) {
     const cellSizeCss = `${CELL_SIZE}px`
+
     const posMap = computed(() => {
       const map: Record<number, Record<number, ITurtle>> = {}
 
@@ -63,6 +64,15 @@ export default defineComponent({
       }
 
       return map
+    })
+
+    const containerStyle = computed(() => {
+      const grid = props.grid
+      return {
+        height: `${grid.length * CELL_SIZE}px`,
+        // assumes that all lengths of subarrays are the same
+        width: `${grid.length ? grid[0].length * CELL_SIZE : 0}px`
+      }
     })
 
     const presentationGrid = computed(() => {
@@ -88,6 +98,7 @@ export default defineComponent({
         height: cellSizeCss
       },
       presentationGrid,
+      containerStyle
     }
   },
 })
