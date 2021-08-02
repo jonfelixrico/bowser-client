@@ -4,8 +4,11 @@
       :style="{ height: `${pageHeight}px` }"
       class="full-width"
       ref="scrollArea"
-      v-touch-pan.prevent.mouse="onPan"
-      draggable="true"
+      @mousedown.right="onPointerDown"
+      @contextmenu.prevent
+      :class="{
+        dragging: !!session
+      }"
     >
       <div class="flex flex-center q-pa-sm" :style="{ minHeight: `${pageHeight}px` }">
         <slot />
@@ -19,23 +22,19 @@ import { defineComponent, ref } from 'vue'
 import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { QScrollArea } from 'quasar'
 
-interface ITouchPan {
-  offset: {
-    x: number
-    y: number
-  }
-
-  isFirst: boolean
-  isFinal: boolean
+interface IScrollPosition {
+  top: number
+  left: number
 }
 
-interface IScrollPosition {
-    top: number
-    left: number
-  }
+interface IPointerEvent {
+  clientX: number
+  clientY: number
+}
 
 interface IPanSession {
   scroll: IScrollPosition
+  origin: IPointerEvent
 }
 
 export default defineComponent({
@@ -53,27 +52,64 @@ export default defineComponent({
       return this.$refs.scrollArea as QScrollArea
     },
 
-    createSession () {
-      const scrollArea = this.getScrollArea()
+    onPointerDown (e: IPointerEvent) {
+      console.debug(e)
       this.session = {
-        scroll: scrollArea.getScrollPosition() as IScrollPosition
+        scroll: this.getScrollArea().getScrollPosition() as IScrollPosition,
+        origin: e
+      }
+
+      this.handlePointerEvent(e)
+    },
+
+    onPointerMove (e: IPointerEvent) {
+      if (!this.session) {
+        return
+      }
+
+      this.handlePointerEvent(e)
+    },
+
+    onPointerUp () {
+      if (this.session) {
+        this.session = null
       }
     },
 
-    onPan ({ isFirst, isFinal, offset }: ITouchPan) {
-      if (isFinal) {
-        this.session = null
-        return
-      } else if (isFirst) {
-        this.createSession()
+    handlePointerEvent ({ clientX, clientY }: IPointerEvent) {
+      const scrollArea = this.getScrollArea()
+      const { scroll, origin } = this.session as IPanSession
+      const { top, left } = scroll
+      const distance = {
+        x: clientX - origin.clientX,
+        y: clientY - origin.clientY
       }
 
-      const { top, left } = (this.session as IPanSession).scroll // guaranteed to have a value because of the createSession call
-
-      const scrollArea = this.getScrollArea()
-      scrollArea.setScrollPosition('vertical', top - offset.y)
-      scrollArea.setScrollPosition('horizontal', left - offset.x)
+      scrollArea.setScrollPosition('vertical', top - distance.y)
+      scrollArea.setScrollPosition('horizontal', left - distance.x)
     }
+  },
+
+  mounted () {
+    const doc = document as Document
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    doc.addEventListener('pointerup', this.onPointerUp)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    doc.addEventListener('pointermove', this.onPointerMove)
+  },
+
+  beforeUnmount () {
+    const doc = document as Document
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    doc.removeEventListener('pointerup', this.onPointerUp)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    doc.removeEventListener('pointermove', this.onPointerMove)
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.dragging {
+  cursor: grabbing;
+}
+</style>
