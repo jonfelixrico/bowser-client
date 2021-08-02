@@ -1,6 +1,9 @@
 import { useStore } from 'src/store'
 import { Ref, computed } from 'vue'
 
+export type IGridCell = { x: number, z: number }
+export type IGrid = IGridCell[][]
+
 export function useGrid (y: Ref<number>) {
   const store = useStore()
 
@@ -26,7 +29,7 @@ export function useGrid (y: Ref<number>) {
               z: z.offset - buffers.north + zIndex,
             }
           })
-      })
+      }) as IGrid
   })
 
   function getGridIndex (x: number, z: number): [number, number] | null {
