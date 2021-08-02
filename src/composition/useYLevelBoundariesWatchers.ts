@@ -8,8 +8,14 @@ const sortFn = (a: number, b: number) => a - b
 export function useYLevelBoundariesWatcher () {
   const store = useStore()
 
+  function pushBoundary (boundary: IYBoundaries) {
+    store.commit('visualizer/setYBoundary', boundary)
+  }
+
   function computeBoundaries () {
-    const { turtles: turtleList } = store.state.turtles
+    const { visualizer, turtles } = store.state
+    const { turtles: turtleList } = turtles
+    const { yBoundaries } = visualizer
 
     Object.entries(groupBy(turtleList, ({ y }) => y))
       .map(([y, sameLayerTurtles]) => {
@@ -33,8 +39,28 @@ export function useYLevelBoundariesWatcher () {
           }
         } as IYBoundaries
       })
-      .forEach(yBoundary => {
-        store.commit('visualizer/setYBoundary', yBoundary)
+      .forEach(updated => {
+        const existing = yBoundaries[updated.y]
+        if (!existing) {
+          pushBoundary(updated)
+          return
+        }
+
+        const newBoundary: IYBoundaries = {
+          y: updated.y, // doesn't matter if we use existing or updated here; they're equal
+          x: {
+            // we'll only update length if the new length is greater than the old one
+            length: Math.max(existing.x.length, updated.x.length),
+            // same here, but the new offset should be less than the old one
+            offset: Math.min(existing.x.offset, updated.x.offset)
+          },
+          z: {
+            length: Math.max(existing.z.length, updated.z.length),
+            offset: Math.min(existing.x.offset, updated.x.offset)
+          }
+        }
+
+        pushBoundary(newBoundary)
       })
   }
 
