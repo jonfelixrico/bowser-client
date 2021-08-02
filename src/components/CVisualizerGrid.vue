@@ -9,11 +9,9 @@
         v-for="{ x, z, turtle } of xRow"
         :key="[x, z].join('/')"
         :style="[cellStyle]"
-        class="grid-cell"
+        class="grid-cell row"
       >
-        <div class="fit">
-          <c-turtle-grid-item v-if="turtle" class="fit" :turtle="turtle" />
-        </div>
+        <c-turtle-grid-item v-if="turtle" class="col" :turtle="turtle" />
       </div>
     </div>
   </div>
