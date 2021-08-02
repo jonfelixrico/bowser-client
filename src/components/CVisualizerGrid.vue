@@ -6,11 +6,12 @@
       class="grid-row row"
     >
       <div
-        v-for="{ x, z, turtle } of xRow"
+        v-for="{ x, z, turtle, tooltip } of xRow"
         :key="[x, z].join('/')"
         :style="[cellStyle]"
         class="grid-cell row"
       >
+        <q-tooltip anchor="center middle" self="bottom middle">{{ tooltip }}</q-tooltip>
         <c-turtle-grid-item v-if="turtle" class="col" :turtle="turtle" />
       </div>
     </div>
@@ -25,6 +26,7 @@ import CTurtleGridItem from './CTurtleGridItem.vue'
 
 interface IPresentationGridCell extends IGridCell {
   turtle?: ITurtle
+  tooltip: string
 }
 
 const CELL_SIZE = 50
@@ -72,7 +74,8 @@ export default defineComponent({
 
           return {
             ...coords,
-            turtle
+            turtle,
+            tooltip: [x, props.y, z].join(', ')
           }
         })
       })
