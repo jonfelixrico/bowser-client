@@ -10,13 +10,27 @@ export interface IYBoundaries {
   }
 }
 
+export interface IYBoundsBuffer {
+  north: number
+  south: number
+  east: number
+  west: number
+}
+
 export interface IVisualizerState {
-  yBoundaries: Record<number, IYBoundaries>
+  yBoundaries: Record<number, IYBoundaries>,
+  buffers: IYBoundsBuffer
 }
 
 function state (): IVisualizerState {
   return {
-    yBoundaries: {}
+    yBoundaries: {},
+    buffers: {
+      north: 0,
+      west: 0,
+      east: 0,
+      south: 0
+    }
   }
 }
 
