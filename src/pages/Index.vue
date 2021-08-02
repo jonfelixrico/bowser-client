@@ -7,10 +7,6 @@
       <q-page-container>
         <c-visualizer-content :turtles="turtles" @click="onTurtleClick" />
       </q-page-container>
-
-      <q-footer class="bg-transparent text-black">
-        <router-view />
-      </q-footer>
     </q-layout>
   </q-page>
 </template>

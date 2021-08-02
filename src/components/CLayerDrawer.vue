@@ -4,7 +4,7 @@
       <div class="col relative-position">
         <q-scroll-area class="absolute-full">
           <q-list separator>
-            <q-item v-for="{ x, z, id, label } of turtles" :key="id" clickable :to="{ name: 'turtleInfo', params: { turtleId: id } }">
+            <q-item v-for="{ x, z, id, label } of turtles" :key="id" clickable>
               <q-item-section>
                 <!-- TODO i18nize these -->
                 <q-item-label>{{ label ? label : 'No Label' }}</q-item-label>
