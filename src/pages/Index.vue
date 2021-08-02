@@ -5,7 +5,9 @@
       <c-layer-drawer bordered model-value side="right" :turtles="turtles" :breakpoint="0" />
 
       <q-page-container>
-        <c-visualizer-content :turtles="turtles" :grid="grid" @click="onTurtleClick" />
+        <c-visualizer-grid-layout>
+          <c-visualizer-grid :grid="grid" :turtles="turtles" />
+        </c-visualizer-grid-layout>
       </q-page-container>
     </q-layout>
   </q-page>
@@ -16,12 +18,13 @@ import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { useStore } from 'src/store'
-import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 import CLayerDrawer from 'src/components/CLayerDrawer.vue'
 import { useGrid } from 'src/composition/useGrid'
+import CVisualizerGridLayout from 'components/CVisualizerGridLayout.vue'
+import CVisualizerGrid from 'components/CVisualizerGrid.vue'
 
 export default defineComponent({
-  components: { CVisualizerContent, CLayerDrawer },
+  components: { CLayerDrawer, CVisualizerGridLayout, CVisualizerGrid },
 
   props: {
     yLevel: {
@@ -47,8 +50,6 @@ export default defineComponent({
       },
     )
 
-    const grid = useGrid(numYLevel)
-
     async function onTurtleClick (turtleId: string) {
       await router.push({
         name: 'turtleInfo',
@@ -62,7 +63,7 @@ export default defineComponent({
       ...useQPageStyleFn(),
       turtles,
       onTurtleClick,
-      grid
+      ...useGrid(numYLevel)
     }
   },
 })
