@@ -12,7 +12,8 @@ module.exports = function (app) {
         y: 0,
         z: 0,
         fuelLevel: 10,
-        fuelLimit: 1000
+        fuelLimit: 1000,
+        bearing: 1
       },
       {
         id: '2',
@@ -21,7 +22,8 @@ module.exports = function (app) {
         y: 0,
         z: -10,
         fuelLevel: 10,
-        fuelLimit: 1000
+        fuelLimit: 1000,
+        bearing: 3
       },
       {
         id: '3',
@@ -30,7 +32,8 @@ module.exports = function (app) {
         y: 0,
         z: 20,
         fuelLevel: 150,
-        fuelLimit: 1000
+        fuelLimit: 1000,
+        bearing: 2
       },
       {
         id: '4',
@@ -39,7 +42,8 @@ module.exports = function (app) {
         y: 1,
         z: 1,
         fuelLevel: 1000,
-        fuelLimit: 1000
+        fuelLimit: 1000,
+        bearing: 4
       }
     ])
   })
