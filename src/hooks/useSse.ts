@@ -1,6 +1,7 @@
 import { useEventSource } from '@vueuse/core'
 import { ISseData } from 'src/interfaces/sse-data.interface'
 import { computed } from 'vue'
+
 export function useSse (url: string) {
   const { data, ...others } = useEventSource(url)
 
