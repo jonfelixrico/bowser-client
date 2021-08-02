@@ -40,6 +40,11 @@ export default defineComponent({
     grid: {
       type: Array as PropType<IGrid>,
       default: () => []
+    },
+
+    y: {
+      type: Number,
+      required: true
     }
   },
 

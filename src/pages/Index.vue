@@ -2,7 +2,7 @@
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }" view="hHh LpR lFr">
       <!-- TODO use a proper breakpoint value; this is only for testing on mobile -->
-      <c-layer-drawer bordered model-value side="right" :turtles="turtles" :breakpoint="0" />
+      <c-layer-drawer bordered model-value side="right" :turtles="turtles" :breakpoint="0" :y="parseInt(yLevel)" />
 
       <q-page-container>
         <c-visualizer-grid-layout>
