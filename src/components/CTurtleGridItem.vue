@@ -1,5 +1,5 @@
 <template>
-  <div :style="sizeStyle" class="flex flex-center">
+  <div class="flex flex-center">
     <q-icon :name="iconName" />
   </div>
 </template>
@@ -21,23 +21,10 @@ export default defineComponent({
     turtle: {
       type: Object as PropType<ITurtle>,
       required: true
-    },
-
-    size: {
-      type: Number,
-      required: true
     }
   },
 
   computed: {
-    sizeStyle (): Record<string, string> {
-      const cssSize = `${this.size}px`
-      return {
-        width: cssSize,
-        height: cssSize
-      }
-    },
-
     iconName (): string {
       return DIRECTION_MAPPING[this.turtle.bearing]
     }
