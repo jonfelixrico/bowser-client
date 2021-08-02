@@ -7,9 +7,11 @@ import {
 } from 'vuex'
 import turtlesModule from './turtles'
 import { ITurtleState } from './turtles/state'
+import { IVisualizerState } from './visualizer/state'
 
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
+import visualizerModule from './visualizer/index'
 
 /*
  * If not building with SSR mode, you can
@@ -21,12 +23,8 @@ import { ITurtleState } from './turtles/state'
  */
 
 export interface StateInterface {
-  // Define your own store structure, using submodules if needed
-  // example: ExampleStateInterface;
-  // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  // example: unknown
-
-  turtles: ITurtleState
+  turtles: ITurtleState,
+  visualizer: IVisualizerState
 }
 
 // provide typings for `this.$store`
@@ -45,6 +43,7 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
       turtles: turtlesModule,
+      visualizer: visualizerModule
     },
 
     // enable strict mode (adds overhead!)
