@@ -1,18 +1,19 @@
 <template>
-  <div :style="containerStyle" class="grid disable-select">
+  <div class="grid disable-select">
     <div
       v-for="(xRow, index) of presentationGrid"
       :key="index"
-      :style="rowStyle"
-      class="grid-row"
+      class="grid-row row"
     >
       <div
         v-for="{ x, z, turtle } of xRow"
         :key="[x, z].join('/')"
         :style="[cellStyle]"
-        class="inline-block grid-cell"
+        class="grid-cell"
       >
-        <c-turtle-grid-item v-if="turtle" class="fit" :turtle="turtle" />
+        <div class="fit">
+          <c-turtle-grid-item v-if="turtle" class="fit" :turtle="turtle" />
+        </div>
       </div>
     </div>
   </div>
@@ -47,6 +48,7 @@ export default defineComponent({
   emits: ['click'],
 
   setup (props) {
+    const cellSizeCss = `${CELL_SIZE}px`
     const posMap = computed(() => {
       const map: Record<number, Record<number, ITurtle>> = {}
 
@@ -56,15 +58,6 @@ export default defineComponent({
       }
 
       return map
-    })
-
-    const containerStyle = computed(() => {
-      const grid = props.grid
-
-      return {
-        width: `${grid.length * CELL_SIZE}px`,
-        height: `${grid.length ? grid[0].length : 0 * CELL_SIZE}px`
-      }
     })
 
     const presentationGrid = computed(() => {
@@ -82,19 +75,13 @@ export default defineComponent({
       })
     })
 
-    const cellSizeCss = `${CELL_SIZE}px`
-
     return {
       CELL_SIZE,
       cellStyle: {
         width: cellSizeCss,
         height: cellSizeCss
       },
-      rowStyle: {
-        height: cellSizeCss
-      },
       presentationGrid,
-      containerStyle
     }
   },
 })
@@ -103,10 +90,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .grid {
   .grid-row {
-    white-space: nowrap;
-
     .grid-cell {
-      display: inline-block;
       border-color: $primary;
       border-style: solid;
       border-width: 0px;
