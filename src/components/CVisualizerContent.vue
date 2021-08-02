@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
+import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import CVisualizerGrid from 'components/CVisualizerGrid.vue'
 import { ITurtle } from 'src/store/turtles/state'
 

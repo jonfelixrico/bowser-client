@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useQPageStyleFn } from 'src/hooks/useQPageStyleFn'
+import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { useStore } from 'src/store'
 import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 import CLayerDrawer from 'src/components/CLayerDrawer.vue'

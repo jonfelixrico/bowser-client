@@ -23,7 +23,7 @@ import { defineComponent, watch, onBeforeUnmount } from 'vue'
 import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 import { api } from 'src/boot/axios'
 import { getStore, useStore } from 'src/store'
-import { useSse } from 'src/hooks/useSse'
+import { useSse } from 'src/composition/useSse'
 
 export default defineComponent({
   components: { CTurtleOverviewDrawer },
