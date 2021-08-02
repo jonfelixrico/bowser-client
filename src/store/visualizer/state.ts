@@ -26,10 +26,10 @@ function state (): IVisualizerState {
   return {
     yBoundaries: {},
     buffers: {
-      north: 0,
-      west: 0,
-      east: 0,
-      south: 0
+      north: 5,
+      west: 5,
+      east: 5,
+      south: 5
     }
   }
 }
