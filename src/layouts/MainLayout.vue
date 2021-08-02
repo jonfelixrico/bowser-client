@@ -24,6 +24,7 @@ import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 import { api } from 'src/boot/axios'
 import { getStore, useStore } from 'src/store'
 import { useSse } from 'src/composition/useSse'
+import { useYLevelBoundariesWatcher } from 'src/composition/useYLevelBoundariesWatchers'
 
 export default defineComponent({
   components: { CTurtleOverviewDrawer },
@@ -43,6 +44,8 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => close())
+
+    useYLevelBoundariesWatcher()
 
     return {}
   },
