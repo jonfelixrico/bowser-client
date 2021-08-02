@@ -18,10 +18,10 @@ export function useGrid (y: Ref<number>) {
 
     const { x, z } = bounds
 
-    return Array(z.length + buffers.south)
+    return Array(z.length + buffers.south + buffers.north)
       .fill(null)
       .map((_, zIndex) => {
-        return Array(x.length + buffers.east)
+        return Array(x.length + buffers.east + buffers.east)
           .fill(null)
           .map((_, xIndex) => {
             return {
