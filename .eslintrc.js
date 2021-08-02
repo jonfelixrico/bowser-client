@@ -79,6 +79,7 @@ module.exports = {
     'no-void': 'off',
     'multiline-ternary': 'off',
     'comma-dangle': ['error', 'only-multiline'],
+    'no-undef': 'error',
 
     'import/first': 'off',
     'import/named': 'error',
