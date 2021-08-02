@@ -2,10 +2,10 @@
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }" view="hHh LpR lFr">
       <!-- TODO use a proper breakpoint value; this is only for testing on mobile -->
-      <c-layer-drawer bordered model-value side="right" :turtles="turtles" breakpoint="0" />
+      <c-layer-drawer bordered model-value side="right" :turtles="turtles" :breakpoint="0" />
 
       <q-page-container>
-        <c-visualizer-content :turtles="turtles" @click="onTurtleClick" />
+        <c-visualizer-content :turtles="turtles" :grid="grid" @click="onTurtleClick" />
       </q-page-container>
     </q-layout>
   </q-page>
@@ -18,6 +18,7 @@ import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { useStore } from 'src/store'
 import CVisualizerContent from 'src/components/CVisualizerContent.vue'
 import CLayerDrawer from 'src/components/CLayerDrawer.vue'
+import { useGrid } from 'src/composition/useGrid'
 
 export default defineComponent({
   components: { CVisualizerContent, CLayerDrawer },
@@ -33,18 +34,20 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
 
+    const numYLevel = computed(() => parseInt(props.yLevel))
+
     const turtles = computed(
       () => {
-        const yLevel = parseInt(props.yLevel)
-
         return Object.values(store.state.turtles.turtles)
-          .filter(({ y }) => y === yLevel)
+          .filter(({ y }) => y === numYLevel.value)
           .sort((a, b) => {
             const zDiff = a.z - b.z
             return zDiff === 0 ? a.x - b.x : zDiff
           })
       },
     )
+
+    const grid = useGrid(numYLevel)
 
     async function onTurtleClick (turtleId: string) {
       await router.push({
@@ -59,6 +62,7 @@ export default defineComponent({
       ...useQPageStyleFn(),
       turtles,
       onTurtleClick,
+      grid
     }
   },
 })
