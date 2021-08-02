@@ -31,11 +31,11 @@ export function useYLevelBoundariesWatcher () {
           y: parseInt(y), // y got stringified due to it being an object key
           z: {
             offset: zMin,
-            length: zMax - zMin
+            length: zMax - zMin + 1 // number of blocks betwen zMax and zMin, inclusive so + 1
           },
           x: {
             offset: xMin,
-            length: xMax - xMin
+            length: xMax - xMin + 1
           }
         } as IYBoundaries
       })
