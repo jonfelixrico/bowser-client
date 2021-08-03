@@ -20,17 +20,21 @@ export interface IYBoundsBuffer {
 export interface IVisualizerState {
   yBoundaries: Record<number, IYBoundaries>,
   buffers: IYBoundsBuffer
+  selectedTurtleIds: string[]
 }
 
 function state (): IVisualizerState {
   return {
     yBoundaries: {},
+
     buffers: {
       north: 5,
       west: 5,
       east: 5,
       south: 5
-    }
+    },
+
+    selectedTurtleIds: []
   }
 }
 

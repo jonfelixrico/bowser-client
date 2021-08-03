@@ -8,6 +8,10 @@ const mutation: MutationTree<IVisualizerState> = {
 
   setBoundsBuffer (state, buffers: IYBoundsBuffer) {
     state.buffers = buffers
+  },
+
+  setSelectedTurtleIds (state, ids: string[]) {
+    state.selectedTurtleIds = ids
   }
 }
 
