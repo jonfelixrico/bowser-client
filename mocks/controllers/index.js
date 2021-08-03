@@ -5,8 +5,8 @@ const CONTROLLER_FACTORIES = [
   require('./turtles.controller')
 ]
 
-module.exports = function ({ app }) {
+module.exports = function ({ app }, injected) {
   const router = Router()
-  CONTROLLER_FACTORIES.forEach(factoryFn => factoryFn(router))
+  CONTROLLER_FACTORIES.forEach(factoryFn => factoryFn(router, injected))
   app.use('/api', router)
 }
