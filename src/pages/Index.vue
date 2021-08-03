@@ -1,9 +1,6 @@
 <template>
   <q-page :style-fn="styleFn">
     <q-layout container :style="{ height: `${pageHeight}px` }" view="hHh LpR lFr">
-      <!-- TODO use a proper breakpoint value; this is only for testing on mobile -->
-      <c-layer-drawer bordered model-value side="right" :turtles="turtles" :breakpoint="0" />
-
       <q-page-container>
         <c-visualizer-grid-layout>
           <c-visualizer-grid :grid="grid" :turtles="turtles" :y="parseInt(yLevel)" v-model:selection="selection" />
@@ -18,13 +15,12 @@ import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { useStore } from 'src/store'
-import CLayerDrawer from 'src/components/CLayerDrawer.vue'
 import { useGrid } from 'src/composition/useGrid'
 import CVisualizerGridLayout from 'src/components/CVisualizerGridContainer.vue'
 import CVisualizerGrid from 'components/CVisualizerGrid.vue'
 
 export default defineComponent({
-  components: { CLayerDrawer, CVisualizerGridLayout, CVisualizerGrid },
+  components: { CVisualizerGridLayout, CVisualizerGrid },
 
   props: {
     yLevel: {
