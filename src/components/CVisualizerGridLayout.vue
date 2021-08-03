@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onBeforeMount, onBeforeUnmount } from 'vue'
 import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { QScrollArea } from 'quasar'
 
@@ -39,68 +39,69 @@ interface IPanSession {
 
 export default defineComponent({
   setup () {
-    const session = ref<IPanSession | null>(null)
+    const session = ref<IPanSession | null>()
+    const scrollArea = ref<QScrollArea>()
 
-    return {
-      ...useQPageStyleFn(),
-      session
-    }
-  },
-
-  methods: {
-    getScrollArea () {
-      return this.$refs.scrollArea as QScrollArea
-    },
-
-    onPointerDown (e: IPointerEvent) {
-      this.session = {
-        scroll: this.getScrollArea().getScrollPosition() as IScrollPosition,
-        origin: e
-      }
-
-      this.handlePointerEvent(e)
-    },
-
-    onPointerMove (e: IPointerEvent) {
-      if (!this.session) {
+    function handlePointerEvent ({ clientX, clientY }: IPointerEvent) {
+      if (!scrollArea.value || !session.value) {
         return
       }
 
-      this.handlePointerEvent(e)
-    },
-
-    onPointerUp () {
-      if (this.session) {
-        this.session = null
-      }
-    },
-
-    handlePointerEvent ({ clientX, clientY }: IPointerEvent) {
-      const scrollArea = this.getScrollArea()
-      const { scroll, origin } = this.session as IPanSession
+      const { scroll, origin } = session.value
       const { top, left } = scroll
       const distance = {
         x: clientX - origin.clientX,
         y: clientY - origin.clientY
       }
 
-      scrollArea.setScrollPosition('vertical', top - distance.y)
-      scrollArea.setScrollPosition('horizontal', left - distance.x)
+      scrollArea.value.setScrollPosition('vertical', top - distance.y)
+      scrollArea.value.setScrollPosition('horizontal', left - distance.x)
     }
-  },
 
-  mounted () {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    document.addEventListener('pointerup', this.onPointerUp)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    document.addEventListener('pointermove', this.onPointerMove)
-  },
+    function onPointerUp () {
+      if (session.value) {
+        session.value = null
+      }
+    }
 
-  beforeUnmount () {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    document.removeEventListener('pointerup', this.onPointerUp)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    document.removeEventListener('pointermove', this.onPointerMove)
+    function onPointerDown (e: IPointerEvent) {
+      if (!scrollArea.value) {
+        return
+      }
+
+      session.value = {
+        scroll: scrollArea.value.getScrollPosition() as IScrollPosition,
+        origin: e
+      }
+
+      handlePointerEvent(e)
+    }
+
+    function onPointerMove (e: IPointerEvent) {
+      if (!session.value) {
+        return
+      }
+
+      handlePointerEvent(e)
+    }
+
+    onBeforeMount(() => {
+      document.addEventListener('pointerup', onPointerUp)
+      document.addEventListener('pointermove', onPointerMove)
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('pointerup', onPointerUp)
+      document.removeEventListener('pointermove', onPointerMove)
+    })
+
+    return {
+      ...useQPageStyleFn(),
+      session,
+      handlePointerEvent,
+      onPointerDown,
+      scrollArea
+    }
   }
 })
 </script>
