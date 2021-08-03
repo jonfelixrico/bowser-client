@@ -90,14 +90,14 @@ function usePresentation (turtlesRef: Ref<ITurtle[]>, gridRef: Ref<IGrid>, yRef:
   }
 }
 
-function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selected'[]>) {
+function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selection'[]>) {
   function addToSelection (...turtleIds: string[]) {
     const selection = selectionRef.value
-    emit('update:selected', [...selection, ...turtleIds])
+    emit('update:selection', [...selection, ...turtleIds])
   }
 
   function setSelection (...turtleIds: string[]) {
-    emit('update:selected', turtleIds)
+    emit('update:selection', turtleIds)
   }
 
   const selectionSet = computed(() => new Set<string>(selectionRef.value))
@@ -133,7 +133,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['update:selected'],
+  emits: ['update:selection'],
 
   setup (props, context) {
     const { turtles, grid, y, selection } = toRefs(props)
