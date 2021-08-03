@@ -9,15 +9,17 @@ const ACK_MESSAGE = JSON.stringify({
   data: 'ok'
 })
 
-module.exports = function (app) {
+module.exports = function (app, injected) {
   app.get('/sse', (req, res) => {
     res.writeHead(200, SSE_HEADERS)
     res.write(ACK_MESSAGE)
-
     console.log('SSE connection established.')
+
+    const unsub = injected.sseEmitter.subscribe(toSend => res.write(toSend))
 
     req.on('close', () => {
       console.log(`SSE connection closed.`)
+      unsub()
     })
   })
 }
