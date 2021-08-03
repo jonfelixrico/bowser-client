@@ -9,11 +9,15 @@
       >
         <q-item-section class="column q-gutter-y-sm">
           <div class="row">
-            <div class="col">{{ label ? label : 'No label' }} / {{ id }}</div>
-            <div class="text-caption">{{ [x, y, z].join(', ') }}</div>
+            <div class="col text-weight-medium">{{ label ? label : 'No label' }} / {{ id }}</div>
+            <div class="text-caption text-grey">{{ [x, y, z].join(', ') }}</div>
           </div>
 
-          <q-linear-progress :value="fuelLevel / fuelLimit" track-color="grey-10" color="primary" />
+          <q-linear-progress :value="fuelLevel / fuelLimit" color="primary" size="25px">
+            <div class="absolute-full flex flex-center">
+              <q-badge color="white" text-color="primary">{{ fuelLevel }} / {{ fuelLimit }}</q-badge>
+            </div>
+          </q-linear-progress>
         </q-item-section>
       </q-item>
     </q-list>
