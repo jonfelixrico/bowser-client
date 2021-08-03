@@ -2,7 +2,8 @@ const Router = require('express').Router
 
 const CONTROLLER_FACTORIES = [
   require('./sse.controller'),
-  require('./turtles.controller')
+  require('./turtles.controller'),
+  require('./commands.controller')
 ]
 
 module.exports = function (app, injected) {
