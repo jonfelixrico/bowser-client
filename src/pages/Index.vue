@@ -6,7 +6,7 @@
 
       <q-page-container>
         <c-visualizer-grid-layout>
-          <c-visualizer-grid :grid="grid" :turtles="turtles" :y="parseInt(yLevel)" />
+          <c-visualizer-grid :grid="grid" :turtles="turtles" :y="parseInt(yLevel)" v-model:selection="selection" />
         </c-visualizer-grid-layout>
       </q-page-container>
     </q-layout>
@@ -59,11 +59,17 @@ export default defineComponent({
       })
     }
 
+    const selection = computed({
+      get: () => store.state.visualizer.selectedTurtleIds,
+      set: (ids: string[]) => store.commit('visualizer/setSelectedTurtleIds', ids)
+    })
+
     return {
       ...useQPageStyleFn(),
       turtles,
       onTurtleClick,
-      ...useGrid(numYLevel)
+      ...useGrid(numYLevel),
+      selection
     }
   },
 })
