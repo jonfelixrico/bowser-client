@@ -20,7 +20,7 @@ import { useQPageStyleFn } from 'src/composition/useQPageStyleFn'
 import { useStore } from 'src/store'
 import CLayerDrawer from 'src/components/CLayerDrawer.vue'
 import { useGrid } from 'src/composition/useGrid'
-import CVisualizerGridLayout from 'components/CVisualizerGridLayout.vue'
+import CVisualizerGridLayout from 'src/components/CVisualizerGridContainer.vue'
 import CVisualizerGrid from 'components/CVisualizerGrid.vue'
 
 export default defineComponent({
