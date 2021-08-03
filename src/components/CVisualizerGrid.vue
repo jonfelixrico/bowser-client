@@ -17,6 +17,8 @@
           class="col relative-position cursor-pointer"
           v-ripple
           :turtle="turtle"
+          @click.exact="setSelection(turtle.id)"
+          @click.ctrl="setSelection(turtle.id)"
         />
       </div>
     </div>
@@ -25,7 +27,7 @@
 
 <script lang="ts">
 import { ITurtle } from 'src/store/turtles/state'
-import { defineComponent, PropType, computed, Ref, toRefs } from 'vue'
+import { defineComponent, PropType, computed, Ref, toRefs, SetupContext } from 'vue'
 import { IGrid, IGridCell } from 'src/composition/useGrid'
 import CTurtleGridItem from './CTurtleGridItem.vue'
 
@@ -87,6 +89,25 @@ function usePresentation (turtlesRef: Ref<ITurtle[]>, gridRef: Ref<IGrid>, yRef:
   }
 }
 
+function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selected'[]>) {
+  function addToSelection (...turtleIds: string[]) {
+    const selection = selectionRef.value
+    emit('update:selected', [...selection, ...turtleIds])
+  }
+
+  function setSelection (...turtleIds: string[]) {
+    emit('update:selected', turtleIds)
+  }
+
+  const selectionSet = computed(() => new Set<string>(selectionRef.value))
+
+  return {
+    addToSelection,
+    setSelection,
+    selectionSet
+  }
+}
+
 export default defineComponent({
   components: { CTurtleGridItem },
   props: {
@@ -105,7 +126,7 @@ export default defineComponent({
       required: true
     },
 
-    selected: {
+    selection: {
       type: Array as PropType<string[]>,
       default: () => []
     }
@@ -113,10 +134,11 @@ export default defineComponent({
 
   emits: ['update:selected'],
 
-  setup (props) {
-    const { turtles, grid, y } = toRefs(props)
+  setup (props, context) {
+    const { turtles, grid, y, selection } = toRefs(props)
     return {
-      ...usePresentation(turtles, grid, y)
+      ...usePresentation(turtles, grid, y),
+      ...useSelect(selection, context)
     }
   },
 })
