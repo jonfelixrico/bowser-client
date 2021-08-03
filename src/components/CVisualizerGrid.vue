@@ -17,10 +17,12 @@
           class="col relative-position cursor-pointer"
           v-ripple
           :turtle="turtle"
-          @click.exact="setSelection(turtle.id)"
-          @click.ctrl="setSelection(turtle.id)"
+          @click.exact="select(turtle.id)"
+          @click.ctrl.exact="handleMultiSelection(turtle.id)"
           :active="selectionSet.has(turtle.id)"
         />
+
+        <div v-else class="col" @click.exact="clearSelection" />
       </div>
     </div>
   </div>
@@ -91,20 +93,31 @@ function usePresentation (turtlesRef: Ref<ITurtle[]>, gridRef: Ref<IGrid>, yRef:
 }
 
 function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selection'[]>) {
-  function addToSelection (...turtleIds: string[]) {
-    const selection = selectionRef.value
-    emit('update:selection', [...selection, ...turtleIds])
-  }
-
-  function setSelection (...turtleIds: string[]) {
-    emit('update:selection', turtleIds)
-  }
-
   const selectionSet = computed(() => new Set<string>(selectionRef.value))
 
+  function handleMultiSelection (turtleId: string) {
+    const set = selectionSet.value
+    const selection = selectionRef.value
+
+    if (set.has(turtleId)) {
+      emit('update:selection', selection.filter(idInSelection => turtleId !== idInSelection))
+    } else {
+      emit('update:selection', [...selection, turtleId])
+    }
+  }
+
+  function select (turtleId: string) {
+    emit('update:selection', [turtleId])
+  }
+
+  function clearSelection () {
+    emit('update:selection', [])
+  }
+
   return {
-    addToSelection,
-    setSelection,
+    handleMultiSelection,
+    select,
+    clearSelection,
     selectionSet
   }
 }
