@@ -12,7 +12,7 @@
         class="grid-cell row"
       >
         <q-tooltip anchor="center middle" self="bottom middle">{{ tooltip }}</q-tooltip>
-        <c-turtle-grid-item v-if="turtle" class="col" :turtle="turtle" />
+        <c-turtle-grid-item v-if="turtle" class="col relative-position cursor-pointer" v-ripple :turtle="turtle" />
       </div>
     </div>
   </div>
