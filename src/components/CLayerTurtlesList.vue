@@ -1,13 +1,19 @@
 <template>
   <q-scroll-area>
     <q-list class="fit-width" separator>
-      <q-item v-for="{ id, label, x, y, z, selected } of presentationList" :key="id" clickable :active="selected">
-        <q-item-section>
-          <!-- i18nize this -->
-          <q-item-label>{{ label ? label : 'No label' }} / {{ id }}</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-item-label>{{ [x, y, z].join(', ') }}</q-item-label>
+      <q-item
+        v-for="{ id, label, x, y, z, selected, fuelLevel, fuelLimit } of presentationList"
+        :key="id"
+        clickable
+        :active="selected"
+      >
+        <q-item-section class="column q-gutter-y-sm">
+          <div class="row">
+            <div class="col">{{ label ? label : 'No label' }} / {{ id }}</div>
+            <div class="text-caption">{{ [x, y, z].join(', ') }}</div>
+          </div>
+
+          <q-linear-progress :value="fuelLevel / fuelLimit" track-color="grey-10" color="primary" />
         </q-item-section>
       </q-item>
     </q-list>
