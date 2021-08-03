@@ -35,7 +35,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-vue": "^7.0.0",
-    "rxjs": "^7.3.0"
+    "rxjs": "^7.3.0",
+    "uuid": "^8.3.2"
   },
   "browserslist": [
     "last 10 Chrome versions",
