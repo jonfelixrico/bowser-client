@@ -1,96 +1,30 @@
 <template>
-  <div class="grid disable-select" :style="containerStyle">
-    <div
-      v-for="(xRow, index) of presentationGrid"
-      :key="index"
-      class="grid-row row"
-    >
-      <div
-        v-for="{ x, z, turtle, tooltip } of xRow"
-        :key="[x, z].join('/')"
-        :style="[cellStyle]"
-        class="grid-cell row"
-      >
-        <q-tooltip anchor="center middle" self="bottom middle">{{ tooltip }}</q-tooltip>
+  <c-grid-layout :grid="grid">
+    <template v-slot="{ x, z }">
+      <div class="fit row">
+        <q-tooltip anchor="center middle" self="bottom middle">{{ [x, y, z].join(', ') }}</q-tooltip>
         <c-turtle-grid-item
-          v-if="turtle"
+          v-if="getTurtle(x, z)"
           class="col relative-position cursor-pointer"
           v-ripple
-          :turtle="turtle"
-          @click.exact="select(turtle.id)"
-          @click.ctrl.exact="handleMultiSelection(turtle.id)"
-          :active="selectionSet.has(turtle.id)"
+          :turtle="getTurtle(x, z)"
+          @click.exact="select(getTurtle(x, z).id)"
+          @click.ctrl.exact="handleMultiSelection(getTurtle(x, z).id)"
+          :active="selectionSet.has((getTurtle(x, z).id))"
         />
 
         <div v-else class="col" @click.exact="clearSelection" />
       </div>
-    </div>
-  </div>
+    </template>
+  </c-grid-layout>
 </template>
 
 <script lang="ts">
 import { ITurtle } from 'src/store/turtles/state'
 import { defineComponent, PropType, computed, Ref, toRefs, SetupContext } from 'vue'
-import { IGrid, IGridCell } from 'src/composition/useGrid'
+import { IGrid } from 'src/composition/useGrid'
 import CTurtleGridItem from './CTurtleGridItem.vue'
-
-interface IPresentationGridCell extends IGridCell {
-  turtle?: ITurtle
-  tooltip: string
-}
-
-const CELL_SIZE = 50
-
-function usePresentation (turtlesRef: Ref<ITurtle[]>, gridRef: Ref<IGrid>, yRef: Ref<number>) {
-  const cellSizeCss = `${CELL_SIZE}px`
-
-  const posMap = computed(() => {
-    const map: Record<number, Record<number, ITurtle>> = {}
-
-    for (const turtle of turtlesRef.value) {
-      const { x, z } = turtle
-      map[x] = { [z]: turtle }
-    }
-
-    return map
-  })
-
-  const containerStyle = computed(() => {
-    const grid = gridRef.value
-    return {
-      height: `${grid.length * CELL_SIZE}px`,
-      // assumes that all lengths of subarrays are the same
-      width: `${grid.length ? grid[0].length * CELL_SIZE : 0}px`
-    }
-  })
-
-  const presentationGrid = computed(() => {
-    const turtlePos = posMap.value
-    const grid = gridRef.value
-
-    return grid.map((row) => {
-      return row.map<IPresentationGridCell>((coords) => {
-        const { x, z } = coords
-        const turtle = turtlePos[x] && turtlePos[x][z]
-
-        return {
-          ...coords,
-          turtle,
-          tooltip: [x, yRef.value, z].join(', ')
-        }
-      })
-    })
-  })
-
-  return {
-    cellStyle: {
-      width: cellSizeCss,
-      height: cellSizeCss
-    },
-    presentationGrid,
-    containerStyle
-  }
-}
+import CGridLayout from './CGridLayout.vue'
 
 function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selection'[]>) {
   const selectionSet = computed(() => new Set<string>(selectionRef.value))
@@ -123,7 +57,8 @@ function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:
 }
 
 export default defineComponent({
-  components: { CTurtleGridItem },
+  components: { CTurtleGridItem, CGridLayout },
+
   props: {
     turtles: {
       type: Array as PropType<ITurtle[]>,
@@ -149,10 +84,27 @@ export default defineComponent({
   emits: ['update:selection'],
 
   setup (props, context) {
-    const { turtles, grid, y, selection } = toRefs(props)
+    const { selection } = toRefs(props)
+
+    const posMap = computed(() => {
+      const map: Record<number, Record<number, ITurtle>> = {}
+
+      for (const turtle of props.turtles) {
+        const { x, z } = turtle
+        map[x] = { [z]: turtle }
+      }
+
+      return map
+    })
+
+    function getTurtle (x: number, z: number) {
+      const posMapVal = posMap.value
+      return posMapVal[x] && posMapVal[x][z]
+    }
+
     return {
-      ...usePresentation(turtles, grid, y),
-      ...useSelect(selection, context)
+      ...useSelect(selection, context),
+      getTurtle
     }
   },
 })
