@@ -11,7 +11,7 @@
         :style="[cellStyle]"
         class="grid-cell row"
       >
-        <div class="col position-relative">
+        <div class="col relative-position">
           <div class="absolute-full">
             <slot v-bind="{ x, z, cellSize }" />
           </div>
