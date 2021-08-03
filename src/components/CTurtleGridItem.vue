@@ -1,5 +1,5 @@
 <template>
-  <div class="row" :class="flexClass">
+  <div class="row" :class="[flexClass, { 'bg-primary': active }]">
     <q-icon :name="iconName" />
   </div>
 </template>
@@ -28,7 +28,9 @@ export default defineComponent({
     turtle: {
       type: Object as PropType<ITurtle>,
       required: true
-    }
+    },
+
+    active: Boolean
   },
 
   computed: {
