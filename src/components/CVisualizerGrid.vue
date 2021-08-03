@@ -47,10 +47,15 @@ export default defineComponent({
     y: {
       type: Number,
       required: true
+    },
+
+    selected: {
+      type: Array as PropType<string[]>,
+      default: () => []
     }
   },
 
-  emits: ['click'],
+  emits: ['update:selected'],
 
   setup (props) {
     const cellSizeCss = `${CELL_SIZE}px`
@@ -92,7 +97,6 @@ export default defineComponent({
     })
 
     return {
-      CELL_SIZE,
       cellStyle: {
         width: cellSizeCss,
         height: cellSizeCss
