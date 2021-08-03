@@ -10,7 +10,7 @@
       </q-toolbar>
     </q-header>
 
-    <main-layout-drawer />
+    <main-layout-drawer model-value bordered />
 
     <q-page-container>
       <router-view />
