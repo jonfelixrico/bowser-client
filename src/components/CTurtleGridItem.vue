@@ -1,5 +1,5 @@
 <template>
-  <div class="row" :class="[flexClass, { 'bg-primary': active }]">
+  <div class="row text-white" :class="[flexClass, { 'bg-primary': active, 'bg-grey': !active }]">
     <q-icon :name="iconName" />
   </div>
 </template>
