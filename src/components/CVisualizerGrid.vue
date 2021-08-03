@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { ITurtle } from 'src/store/turtles/state'
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, Ref, toRefs } from 'vue'
 import { IGrid, IGridCell } from 'src/composition/useGrid'
 import CTurtleGridItem from './CTurtleGridItem.vue'
 
@@ -35,6 +35,57 @@ interface IPresentationGridCell extends IGridCell {
 }
 
 const CELL_SIZE = 50
+
+function usePresentation (turtlesRef: Ref<ITurtle[]>, gridRef: Ref<IGrid>, yRef: Ref<number>) {
+  const cellSizeCss = `${CELL_SIZE}px`
+
+  const posMap = computed(() => {
+    const map: Record<number, Record<number, ITurtle>> = {}
+
+    for (const turtle of turtlesRef.value) {
+      const { x, z } = turtle
+      map[x] = { [z]: turtle }
+    }
+
+    return map
+  })
+
+  const containerStyle = computed(() => {
+    const grid = gridRef.value
+    return {
+      height: `${grid.length * CELL_SIZE}px`,
+      // assumes that all lengths of subarrays are the same
+      width: `${grid.length ? grid[0].length * CELL_SIZE : 0}px`
+    }
+  })
+
+  const presentationGrid = computed(() => {
+    const turtlePos = posMap.value
+    const grid = gridRef.value
+
+    return grid.map((row) => {
+      return row.map<IPresentationGridCell>((coords) => {
+        const { x, z } = coords
+        const turtle = turtlePos[x] && turtlePos[x][z]
+
+        return {
+          ...coords,
+          turtle,
+          tooltip: [x, yRef.value, z].join(', ')
+        }
+      })
+    })
+  })
+
+  return {
+    cellStyle: {
+      width: cellSizeCss,
+      height: cellSizeCss
+    },
+    presentationGrid,
+    containerStyle
+  }
+}
 
 export default defineComponent({
   components: { CTurtleGridItem },
@@ -63,51 +114,9 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup (props) {
-    const cellSizeCss = `${CELL_SIZE}px`
-
-    const posMap = computed(() => {
-      const map: Record<number, Record<number, ITurtle>> = {}
-
-      for (const turtle of props.turtles) {
-        const { x, z } = turtle
-        map[x] = { [z]: turtle }
-      }
-
-      return map
-    })
-
-    const containerStyle = computed(() => {
-      const grid = props.grid
-      return {
-        height: `${grid.length * CELL_SIZE}px`,
-        // assumes that all lengths of subarrays are the same
-        width: `${grid.length ? grid[0].length * CELL_SIZE : 0}px`
-      }
-    })
-
-    const presentationGrid = computed(() => {
-      const turtlePos = posMap.value
-      return props.grid.map((row) => {
-        return row.map<IPresentationGridCell>((coords) => {
-          const { x, z } = coords
-          const turtle = turtlePos[x] && turtlePos[x][z]
-
-          return {
-            ...coords,
-            turtle,
-            tooltip: [x, props.y, z].join(', ')
-          }
-        })
-      })
-    })
-
+    const { turtles, grid, y } = toRefs(props)
     return {
-      cellStyle: {
-        width: cellSizeCss,
-        height: cellSizeCss
-      },
-      presentationGrid,
-      containerStyle
+      ...usePresentation(turtles, grid, y)
     }
   },
 })
