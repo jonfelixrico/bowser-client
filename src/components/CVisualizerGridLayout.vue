@@ -53,7 +53,6 @@ export default defineComponent({
     },
 
     onPointerDown (e: IPointerEvent) {
-      console.debug(e)
       this.session = {
         scroll: this.getScrollArea().getScrollPosition() as IScrollPosition,
         origin: e
@@ -91,19 +90,17 @@ export default defineComponent({
   },
 
   mounted () {
-    const doc = document as Document
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    doc.addEventListener('pointerup', this.onPointerUp)
+    document.addEventListener('pointerup', this.onPointerUp)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    doc.addEventListener('pointermove', this.onPointerMove)
+    document.addEventListener('pointermove', this.onPointerMove)
   },
 
   beforeUnmount () {
-    const doc = document as Document
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    doc.removeEventListener('pointerup', this.onPointerUp)
+    document.removeEventListener('pointerup', this.onPointerUp)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    doc.removeEventListener('pointermove', this.onPointerMove)
+    document.removeEventListener('pointermove', this.onPointerMove)
   }
 })
 </script>
