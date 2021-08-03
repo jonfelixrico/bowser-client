@@ -26,28 +26,29 @@ import { getStore, useStore } from 'src/store'
 import { useSse } from 'src/composition/useSse'
 import { useYLevelBoundariesWatcher } from 'src/composition/useYLevelBoundariesWatchers'
 
+function useTurtleSseConsumer () {
+  const { close, data } = useSse(`${api.defaults.baseURL || ''}/sse`)
+  const store = useStore()
+
+  watch(data, (sseData) => {
+    if (!sseData) {
+      return
+    }
+
+    // we'll be expecting all messages to be turtle data updates for now
+    // TODO filter by message types
+    store.commit('turtles/setTurtles', [sseData.data])
+  })
+
+  onBeforeUnmount(() => close())
+}
+
 export default defineComponent({
   components: { CTurtleOverviewDrawer },
 
   setup () {
-    const { close, data } = useSse(`${api.defaults.baseURL || ''}/sse`)
-    const store = useStore()
-
-    watch(data, (sseData) => {
-      if (!sseData) {
-        return
-      }
-
-      // we'll be expecting all messages to be turtle data updates for now
-      // TODO filter by message types
-      store.commit('turtles/setTurtles', [sseData.data])
-    })
-
-    onBeforeUnmount(() => close())
-
+    useTurtleSseConsumer()
     useYLevelBoundariesWatcher()
-
-    return {}
   },
 
   async beforeRouteEnter (to, from, next) {
