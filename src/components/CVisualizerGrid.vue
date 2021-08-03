@@ -19,6 +19,7 @@
           :turtle="turtle"
           @click.exact="setSelection(turtle.id)"
           @click.ctrl="setSelection(turtle.id)"
+          :active="selectionSet.has(turtle.id)"
         />
       </div>
     </div>
