@@ -10,7 +10,7 @@
       </q-toolbar>
     </q-header>
 
-    <c-turtle-overview-drawer model-value bordered />
+    <main-layout-drawer />
 
     <q-page-container>
       <router-view />
@@ -20,11 +20,11 @@
 
 <script lang="ts">
 import { defineComponent, watch, onBeforeUnmount } from 'vue'
-import CTurtleOverviewDrawer from '../components/CTurtleOverviewDrawer.vue'
 import { api } from 'src/boot/axios'
 import { getStore, useStore } from 'src/store'
 import { useSse } from 'src/composition/useSse'
 import { useYLevelBoundariesWatcher } from 'src/composition/useYLevelBoundariesWatchers'
+import MainLayoutDrawer from './MainLayoutDrawer.vue'
 
 function useTurtleSseConsumer () {
   const { close, data } = useSse(`${api.defaults.baseURL || ''}/sse`)
@@ -44,7 +44,7 @@ function useTurtleSseConsumer () {
 }
 
 export default defineComponent({
-  components: { CTurtleOverviewDrawer },
+  components: { MainLayoutDrawer },
 
   setup () {
     useTurtleSseConsumer()
