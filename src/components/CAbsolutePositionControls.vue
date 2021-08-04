@@ -15,14 +15,26 @@
 
       <q-card-section class="row q-gutter-x-sm">
         <!-- TODO add label -->
-        <q-input class="col" dense outlined />
-        <q-btn label="Submit" no-caps dense unelevated color="primary" />
+        <q-input class="col" dense outlined v-model.number="inputModel" />
+        <q-btn
+          label="Submit"
+          type="number"
+          no-caps
+          dense
+          unelevated
+          color="primary"
+          :disable="inputModel === null"
+          @click="submit"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts">
+import { useSelectedTurtleList } from 'src/composition/useSelectedTurtleList'
+import { useStore } from 'src/store'
+import { ISendCommandsInputMember } from 'src/store/turtles/actions'
 
 type InputMode = 'x' | 'y' | 'z'
 
@@ -35,7 +47,11 @@ const DIALOG_TITLES = {
 import { defineComponent, ref, computed } from 'vue'
 export default defineComponent({
   setup () {
+    const { selectedTurtles } = useSelectedTurtleList()
+    const store = useStore()
+
     const inputMode = ref<InputMode | null>(null)
+    const inputModel = ref<number | null>(null)
 
     const showDialog = computed({
       get: () => !!inputMode.value,
@@ -52,11 +68,39 @@ export default defineComponent({
 
     const dialogTitle = computed(() => inputMode.value && DIALOG_TITLES[inputMode.value])
 
+    async function submit () {
+      const value = inputModel.value
+      const mode = inputMode.value
+
+      inputModel.value = null
+      showDialog.value = false
+
+      const notBusy = selectedTurtles.value.filter(({ busy }) => !busy)
+
+      const asCommands = notBusy.map(({ x, z, id }) => {
+        return {
+          turtleId: id,
+          timestamp: new Date(),
+          actions: [
+            {
+              name: 'GOTO_XZ',
+              args: mode === 'x' ? [value, z] : [x, value]
+            }
+          ]
+        } as ISendCommandsInputMember
+      })
+
+      // TODO use async/await here
+      await store.dispatch('turtles/sendCommands', asCommands)
+    }
+
     return {
       inputMode,
       showDialog,
       onBtnClick,
-      dialogTitle
+      dialogTitle,
+      inputModel,
+      submit
     }
   }
 })
