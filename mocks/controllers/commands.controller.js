@@ -4,7 +4,7 @@ const { v4 } = require('uuid')
 module.exports = function (app, injected) {
   const router = Router()
 
-  app.post('/', ({ body }, res) => {
+  router.post('/', ({ body }, res) => {
     const { commands } = body
 
     commands.forEach(({ turtleId, commandId, actions }, index) => {
