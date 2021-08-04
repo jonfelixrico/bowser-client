@@ -1,6 +1,13 @@
 import { useStore } from 'src/store'
 import { computed } from 'vue'
 import { mapKeys } from 'lodash'
+import { ITurtle } from 'src/models/turtle.interface'
+import { Dictionary } from 'express-serve-static-core'
+
+interface ITurtleInfo extends ITurtle {
+  selected: boolean
+  busy: boolean
+}
 
 export function useTurtleMap () {
   const store = useStore()
@@ -21,7 +28,7 @@ export function useTurtleMap () {
         selected: selectedIds.has(id),
         busy: busyIds.has(id)
       }
-    })
+    }) as Dictionary<ITurtleInfo>
   })
 
   return {
