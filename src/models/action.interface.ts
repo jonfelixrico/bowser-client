@@ -1,4 +1,4 @@
 export interface IAction {
-  type: string
-  payload: unknown[]
+  name: string
+  args: unknown[]
 }
