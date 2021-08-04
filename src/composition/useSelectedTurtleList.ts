@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useTurtleMap } from './useTurtleMap'
 
-export function useSelectedTurtles () {
+export function useSelectedTurtleList () {
   const { turtleMap } = useTurtleMap()
 
   const selectedTurtles = computed(() => {
