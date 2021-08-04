@@ -27,48 +27,23 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'src/store'
 import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useTurtleMap } from 'src/composition/useTurtleMap'
 
 export default defineComponent({
   setup () {
-    const store = useStore()
+    const { turtleMap } = useTurtleMap()
     const route = useRoute()
 
-    const layerTurtles = computed(() => {
-      const y = route.params.yLevel as string
-
-      if (!y) {
-        return []
-      }
-
-      const yNum = parseInt(y)
-
-      const storeTurtles = Object.values(store.state.turtles.turtles)
-      return storeTurtles.filter(({ y }) => yNum === y)
-    })
-
-    const busyTurtles = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const busyIds = store.getters['turtles/busy'] as string[]
-      return new Set(busyIds)
-    })
-
     const presentationList = computed(() => {
-      const selected = new Set(store.state.visualizer.selectedTurtleIds)
-
-      return layerTurtles.value.map((turtle) => {
-        return {
-          ...turtle,
-          selected: selected.has(turtle.id),
-          busy: busyTurtles.value.has(turtle.id)
-        }
-      })
+      return Object.values(turtleMap.value)
+        .filter(turtle => turtle.y === parseInt(route.params.yLevel as string))
     })
 
     return {
-      presentationList
+      presentationList,
+      turtleMap // added for visibility in the devtools
     }
   },
 })
