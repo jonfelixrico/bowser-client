@@ -8,7 +8,7 @@
         :active="selected"
       >
         <q-item-section class="column q-gutter-y-sm">
-          <div class="row">
+          <div class="row items-center">
             <div class="text-weight-medium">{{ label ? label : 'No label' }} / {{ id }}</div>
             <q-badge color="red" text-color="white" v-if="busy">Busy</q-badge>
             <q-space />
