@@ -1,6 +1,5 @@
 import { useStore } from 'src/store'
 import { computed } from 'vue'
-import { mapKeys } from 'lodash'
 import { ITurtle } from 'src/models/turtle.interface'
 import { Dictionary } from 'express-serve-static-core'
 
@@ -20,15 +19,21 @@ export function useTurtleMap () {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const busyIds = new Set(store.getters['turtles/busy'] as string[])
 
-    return mapKeys(store.state.turtles.turtles, turtle => {
-      const { id } = turtle
+    const entries = Object.entries(store.state.turtles.turtles)
+      .map(([key, turtle]) => {
+        const { id } = turtle
 
-      return {
-        ...turtle,
-        selected: selectedIds.has(id),
-        busy: busyIds.has(id)
-      }
-    }) as Dictionary<ITurtleInfo>
+        return [
+          key,
+          {
+            ...turtle,
+            selected: selectedIds.has(id),
+            busy: busyIds.has(id)
+          } as ITurtleInfo
+        ]
+      })
+
+    return Object.fromEntries(entries) as Dictionary<ITurtleInfo>
   })
 
   return {
