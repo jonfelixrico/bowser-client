@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import CTurtleControls from 'components/CTurtleControls.vue'
+import CTurtleControls from 'src/components/CStepControls.vue'
 
 export default defineComponent({
   components: { CTurtleControls }
