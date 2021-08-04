@@ -1,3 +1,4 @@
+import { uid } from 'quasar'
 import { api } from 'src/boot/axios'
 import { ICommand } from 'src/models/command.interface'
 import { ITurtle } from 'src/models/turtle.interface'
@@ -5,19 +6,28 @@ import { ActionTree } from 'vuex'
 import { StateInterface } from '../index'
 import { ITurtleState } from './state'
 
+type ISendCommandsInput = Omit<ICommand, 'commandId'>[]
+
 const actions: ActionTree<ITurtleState, StateInterface> = {
   async fetchTurtleList ({ commit }) {
     const { data } = await api.get<ITurtle[]>('turtles')
     commit('setTurtles', data)
   },
 
-  async sendCommands ({ commit }, commands: ICommand[]) {
+  async sendCommands ({ commit }, commandsToSend: ISendCommandsInput) {
+    const commands: ICommand[] = commandsToSend.map(command => {
+      return {
+        ...command,
+        commandId: uid()
+      }
+    })
+
     try {
-      commands.forEach(({ turtleId }) => commit('setBusyFlag', { turtleId, isBusy: true }))
+      commandsToSend.forEach(({ turtleId }) => commit('setBusyFlag', { turtleId, isBusy: true }))
       await api.post('commands', { commands })
       commit('pushCommands', commands)
     } finally {
-      commands.forEach(({ turtleId }) => commit('setBusyFlag', { turtleId, isBusy: false }))
+      commandsToSend.forEach(({ turtleId }) => commit('setBusyFlag', { turtleId, isBusy: false }))
     }
   }
 }
