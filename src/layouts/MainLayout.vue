@@ -12,6 +12,8 @@
 
     <main-layout-drawer model-value bordered />
 
+    <main-layout-footer />
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -25,6 +27,7 @@ import { getStore, useStore } from 'src/store'
 import { useSse } from 'src/composition/useSse'
 import { useYLevelBoundariesWatcher } from 'src/composition/useYLevelBoundariesWatchers'
 import MainLayoutDrawer from './MainLayoutDrawer.vue'
+import MainLayoutFooter from './MainLayoutFooter.vue'
 
 function useTurtleSseConsumer () {
   const { close, data } = useSse(`${api.defaults.baseURL || ''}/sse`)
@@ -44,7 +47,7 @@ function useTurtleSseConsumer () {
 }
 
 export default defineComponent({
-  components: { MainLayoutDrawer },
+  components: { MainLayoutDrawer, MainLayoutFooter },
 
   setup () {
     useTurtleSseConsumer()
