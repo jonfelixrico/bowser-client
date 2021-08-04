@@ -2,14 +2,16 @@
   <q-scroll-area>
     <q-list class="fit-width" separator>
       <q-item
-        v-for="{ id, label, x, y, z, selected, fuelLevel, fuelLimit } of presentationList"
+        v-for="{ id, label, x, y, z, selected, fuelLevel, fuelLimit, busy } of presentationList"
         :key="id"
         clickable
         :active="selected"
       >
         <q-item-section class="column q-gutter-y-sm">
           <div class="row">
-            <div class="col text-weight-medium">{{ label ? label : 'No label' }} / {{ id }}</div>
+            <div class="text-weight-medium">{{ label ? label : 'No label' }} / {{ id }}</div>
+            <q-badge color="red" text-color="white" v-if="busy">Busy</q-badge>
+            <q-space />
             <div class="text-caption text-grey">{{ [x, y, z].join(', ') }}</div>
           </div>
 
@@ -47,13 +49,20 @@ export default defineComponent({
       return storeTurtles.filter(({ y }) => yNum === y)
     })
 
+    const busyTurtles = computed(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const busyIds = store.getters['turtles/busy'] as string[]
+      return new Set(busyIds)
+    })
+
     const presentationList = computed(() => {
       const selected = new Set(store.state.visualizer.selectedTurtleIds)
 
       return layerTurtles.value.map((turtle) => {
         return {
           ...turtle,
-          selected: selected.has(turtle.id)
+          selected: selected.has(turtle.id),
+          busy: busyTurtles.value.has(turtle.id)
         }
       })
     })
