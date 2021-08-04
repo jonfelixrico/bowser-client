@@ -6,7 +6,7 @@ import { ActionTree } from 'vuex'
 import { StateInterface } from '../index'
 import { ITurtleState } from './state'
 
-type ISendCommandsInput = Omit<ICommand, 'commandId'>[]
+export type ISendCommandsInput = Omit<ICommand, 'commandId'>[]
 
 const actions: ActionTree<ITurtleState, StateInterface> = {
   async fetchTurtleList ({ commit }) {
