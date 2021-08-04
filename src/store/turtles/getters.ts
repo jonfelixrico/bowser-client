@@ -1,4 +1,4 @@
-import { chain, Dictionary, intersection } from 'lodash'
+import { chain, Dictionary, uniq } from 'lodash'
 import { ICommand } from 'src/models/command.interface'
 import { GetterTree } from 'vuex'
 import { StateInterface } from '../index'
@@ -55,7 +55,7 @@ const getters: GetterTree<ITurtleState, StateInterface> = {
   },
 
   busy (_, { currentlyExecuting, flaggedAsBusy }: ITurtlesGetters) {
-    return intersection(currentlyExecuting, flaggedAsBusy).sort()
+    return uniq([...currentlyExecuting, ...flaggedAsBusy])
   }
 }
 
