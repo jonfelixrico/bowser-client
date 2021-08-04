@@ -15,11 +15,11 @@ module.exports = function (app, injected) {
     res.write(ACK_MESSAGE)
     console.log('SSE connection established.')
 
-    const unsub = injected.sseEmitter.subscribe(toSend => res.write(toSend))
+    const subscription = injected.sseEmitter.subscribe(toSend => res.write(toSend))
 
     req.on('close', () => {
       console.log(`SSE connection closed.`)
-      unsub()
+      subscription.unsubscribe()
     })
   })
 }
