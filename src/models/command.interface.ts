@@ -4,5 +4,5 @@ export interface ICommand {
   commandId: string
   turtleId: string
   actions: IAction[]
-  timestamp: number
+  timestamp: Date
 }

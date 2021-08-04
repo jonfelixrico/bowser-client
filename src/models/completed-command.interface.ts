@@ -1,6 +1,6 @@
 export interface ICompletedCommand {
   commandId: string
   turtleId: string
-  timestamp: number
+  timestamp: Date
   actionIndex: number
 }
