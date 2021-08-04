@@ -1,25 +1,17 @@
-const SSE_HEADERS = {
-  'Content-Type': 'text/event-stream',
-  'Connection': 'keep-alive',
-  'Cache-Control': 'no-cache'
-}
+const SSE = require('express-sse')
 
-const ACK_MESSAGE = JSON.stringify({
+const ACK_MESSAGE = {
   type: 'CONNECTION_ACK',
   data: 'ok'
-})
+}
 
 module.exports = function (app, injected) {
-  app.get('/sse', (req, res) => {
-    res.writeHead(200, SSE_HEADERS)
-    res.write(ACK_MESSAGE)
-    console.log('SSE connection established.')
+  const sse = new SSE([ACK_MESSAGE])
 
-    const subscription = injected.sseEmitter.subscribe(toSend => res.write(toSend))
+  app.get('/sse', sse.init)
 
-    req.on('close', () => {
-      console.log(`SSE connection closed.`)
-      subscription.unsubscribe()
-    })
+  injected.sseEmitter.subscribe(toSend => {
+    sse.send(toSend)
+    console.debug('Broadcasted a message.')
   })
 }

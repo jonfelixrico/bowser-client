@@ -8,18 +8,16 @@ module.exports = function (app, injected) {
     const { commands } = body
 
     commands.forEach(({ turtleId, commandId, actions }, index) => {
-      const payload = JSON.stringify({
+      const payload = {
+        type: 'COMMAND_EXECUTED',
         data: {
-          type: 'COMMAND_EXECUTED',
-          data: {
-            turtleId,
-            commandId,
-            actionIndex: actions.length - 1
-          }
+          turtleId,
+          commandId,
+          actionIndex: actions.length - 1
         }
-      })
+      }
 
-      setInterval(() => {
+      setTimeout(() => {
         injected.sseEmitter.next(payload)
       }, (index + 1) * 1000)
     })
