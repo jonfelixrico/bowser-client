@@ -1,5 +1,5 @@
 import { ICommand } from 'src/models/command.interface'
-import { ICompletedCommand } from 'src/models/completed-command.interface'
+import { IExecution } from 'src/models/execution.interface'
 import { ITurtle } from 'src/models/turtle.interface'
 import { MutationTree } from 'vuex'
 import { ITurtleState } from './state'
@@ -15,7 +15,7 @@ const mutation: MutationTree<ITurtleState> = {
     commandStream.push(...commands)
   },
 
-  pushExecutions ({ executionStream }, executions: ICompletedCommand[]) {
+  pushExecutions ({ executionStream }, executions: IExecution[]) {
     executionStream.push(...executions)
   }
 }

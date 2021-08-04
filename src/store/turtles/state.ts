@@ -1,11 +1,11 @@
 import { ICommand } from 'src/models/command.interface'
-import { ICompletedCommand } from 'src/models/completed-command.interface'
+import { IExecution } from 'src/models/execution.interface'
 import { ITurtle } from 'src/models/turtle.interface'
 
 export interface ITurtleState {
   turtles: { [turtleId: string]: ITurtle },
   commandStream: ICommand[],
-  executionStream: ICompletedCommand[]
+  executionStream: IExecution[]
 }
 
 function state (): ITurtleState {

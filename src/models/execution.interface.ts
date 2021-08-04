@@ -1,4 +1,4 @@
-export interface ICompletedCommand {
+export interface IExecution {
   commandId: string
   turtleId: string
   timestamp: Date
