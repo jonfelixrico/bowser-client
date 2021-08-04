@@ -1,6 +1,8 @@
 <template>
-  <q-footer class="bg-transparent text-black">
-    <c-turtle-controls />
+  <q-footer class="bg-transparent text-black q-pa-sm">
+    <div class="row full-width">
+      <c-turtle-controls />
+    </div>
   </q-footer>
 </template>
 
