@@ -6,22 +6,27 @@ module.exports = function (app, injected) {
 
   app.post('/', ({ body }, res) => {
     const { commands } = body
-    const commandUuids = commands.map(() => v4)
 
-    res.json(commandUuids)
-
-    setInterval(() => {
-      commandUuids.forEach(() => {
-        const payload = JSON.stringify({
+    commands.forEach(({ turtleId, commandId, actions }, index) => {
+      const payload = JSON.stringify({
+        data: {
+          type: 'COMMAND_EXECUTED',
           data: {
-            type: 'COMMAND_EXECUTED',
-            data: commandUuids
+            turtleId,
+            commandId,
+            actionIndex: actions.length - 1
           }
-        })
-
-        injected.sseEmitter.next(payload)
+        }
       })
-    }, 5000)
+
+      setInterval(() => {
+        injected.sseEmitter.next(payload)
+      }, (index + 1) * 1000)
+    })
+    
+    
+
+    res.end()
   })
 
   app.use('/controllers', router)
