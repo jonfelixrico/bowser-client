@@ -1,7 +1,5 @@
 <template>
   <div class="column justify-between q-gutter-y-sm">
-    <div>Steps</div>
-    <q-separator />
     <div class="row q-gutter-x-sm">
       <q-input class="col" label="North" outlined dense />
       <q-input class="col" label="South" outlined dense />
