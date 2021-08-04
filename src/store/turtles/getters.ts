@@ -5,14 +5,12 @@ import { StateInterface } from '../index'
 import { ITurtleState } from './state'
 import { IExecution } from 'src/models/execution.interface'
 
-interface ICurrentlyExecutingGetters {
+interface ITurtlesGetters {
   groupedCommandStream: Dictionary<ICommand[]>,
   groupedExecutionStream: Dictionary<IExecution[]>
-}
-
-interface IBusyGetters {
   flaggedAsBusy: string[]
   currentlyExecuting: string[]
+  busy: string[]
 }
 
 const getters: GetterTree<ITurtleState, StateInterface> = {
@@ -37,7 +35,7 @@ const getters: GetterTree<ITurtleState, StateInterface> = {
       .value()
   },
 
-  currentlyExecuting (_, { groupedCommandStream, groupedExecutionStream }: ICurrentlyExecutingGetters): string[] {
+  currentlyExecuting (_, { groupedCommandStream, groupedExecutionStream }: ITurtlesGetters): string[] {
     const lastCommand = chain(groupedCommandStream).mapValues(commands => commands[commands.length - 1]).value()
     const lastExecution = chain(groupedExecutionStream).mapValues(execution => execution[execution.length - 1]).value()
 
@@ -56,7 +54,7 @@ const getters: GetterTree<ITurtleState, StateInterface> = {
       .value()
   },
 
-  busy (_, { currentlyExecuting, flaggedAsBusy }: IBusyGetters) {
+  busy (_, { currentlyExecuting, flaggedAsBusy }: ITurtlesGetters) {
     return intersection(currentlyExecuting, flaggedAsBusy).sort()
   }
 }
