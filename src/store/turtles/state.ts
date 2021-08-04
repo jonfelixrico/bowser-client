@@ -1,13 +1,4 @@
-export interface ITurtle {
-  id: string
-  label: string
-  x: number
-  y: number
-  z: number
-  fuelLimit: number
-  fuelLevel: number
-  bearing: number
-}
+import { ITurtle } from 'src/models/turtle.interface'
 
 export interface ITurtleState {
   turtles: { [turtleId: string]: ITurtle }

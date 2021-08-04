@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { ITurtle } from 'src/store/turtles/state'
+import { ITurtle } from 'src/models/turtle.interface'
 import { defineComponent, PropType } from 'vue'
 
 // This is the table for the icon name that we'll use depending on the direction of the turtle

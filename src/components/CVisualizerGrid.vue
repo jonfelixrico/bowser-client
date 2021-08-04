@@ -20,11 +20,11 @@
 </template>
 
 <script lang="ts">
-import { ITurtle } from 'src/store/turtles/state'
 import { defineComponent, PropType, computed, Ref, toRefs, SetupContext } from 'vue'
 import { IGrid } from 'src/composition/useGrid'
 import CTurtleGridItem from './CTurtleGridItem.vue'
 import CGridLayout from './CGridLayout.vue'
+import { ITurtle } from 'src/models/turtle.interface'
 
 function useSelect (selectionRef: Ref<string[]>, { emit }: SetupContext<'update:selection'[]>) {
   const selectionSet = computed(() => new Set<string>(selectionRef.value))

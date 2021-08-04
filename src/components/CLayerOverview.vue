@@ -22,8 +22,8 @@
 <script lang="ts">
 import { useStore } from 'src/store'
 import { defineComponent, computed } from 'vue'
-import { ITurtle } from 'src/store/turtles/state'
 import { groupBy } from 'lodash'
+import { ITurtle } from 'src/models/turtle.interface'
 
 export default defineComponent({
   setup () {

@@ -1,5 +1,6 @@
+import { ITurtle } from 'src/models/turtle.interface'
 import { MutationTree } from 'vuex'
-import { ITurtle, ITurtleState } from './state'
+import { ITurtleState } from './state'
 
 const mutation: MutationTree<ITurtleState> = {
   setTurtles (state, turtles: ITurtle[]) {
