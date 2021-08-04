@@ -29,5 +29,5 @@ module.exports = function (app, injected) {
     res.end()
   })
 
-  app.use('/controllers', router)
+  app.use('/commands', router)
 }
