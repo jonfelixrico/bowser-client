@@ -5,14 +5,18 @@ import { ITurtle } from 'src/models/turtle.interface'
 export interface ITurtleState {
   turtles: { [turtleId: string]: ITurtle },
   commandStream: ICommand[],
-  executionStream: IExecution[]
+  executionStream: IExecution[],
+  flaggedAsBusyMap: {
+    [turtleId: string]: number
+  }
 }
 
 function state (): ITurtleState {
   return {
     turtles: {},
     commandStream: [],
-    executionStream: []
+    executionStream: [],
+    flaggedAsBusyMap: {}
   }
 }
 
